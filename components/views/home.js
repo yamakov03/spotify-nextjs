@@ -1,7 +1,6 @@
 function Home() {
   return (
-    <div className="text-white">HomeView
-        ghjfghjkghkh
+    <div className="text-white">Home view
     </div>
   )
 }

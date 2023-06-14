@@ -12,6 +12,7 @@ import ReactHtmlParser from "react-html-parser";
 import ColorThief from "colorthief";
 import { motion, Variants } from 'framer-motion';
 import { isLoadingState } from "@/atoms/isLoadingAtom";
+import { currentViewState } from "@/atoms/viewAtom";
 
 const appVariants = {
   initial: {
@@ -35,6 +36,7 @@ function Playlist() {
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
   const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+  const [view, setView] = useRecoilState(currentViewState);
 
   useEffect(() => {
     function componentToHex(c) {
@@ -48,7 +50,7 @@ function Playlist() {
 
     var sourceImage = document.getElementById("myImg");
     sourceImage.onload = function () {
-      setIsLoading(false);
+      
       var colorThief = new ColorThief();
       var rgb = colorThief.getColor(sourceImage);
       setColorH(rgb);
@@ -78,12 +80,13 @@ function Playlist() {
         }
       }
       setPlaylist(pl);
+      setIsLoading(false);
+      //setIsLoading(false);
     })();
   }, [spotifyApi, playlistId]);
 
   return (
-    <>
-    <div className="h-[calc(100vh-5rem)] overflow-y-scroll bg-gradient-to-b to-neutral-900"
+    <div className={"h-[calc(100vh-5rem)] overflow-y-scroll bg-gradient-to-b to-neutral-900" + (isLoading ? " hidden" : "")}
         style={Object.assign(
           { '--tw-gradient-from': `${color}` + ' var(--tw-gradient-from-position)' },
           { '--tw-gradient-to': 'rgb(' + `${colorH[0]}` + ` ${colorH[1]}` + ` ${colorH[2]} / 0)` + ' var(--tw-gradient-to-position)' },
@@ -125,10 +128,10 @@ function Playlist() {
           <div className="text-white px-8 flex flex-col space-y-1">
             <div
               className="grid grid-cols-2 text-neutral-400 py-2 px-5
-    rounded-lg cursor-pointer"
+    rounded-lg"
             >
               <div className="flex items-center space-x-4 ">
-                <p className="text-end w-[20px]">#</p>
+                <p className="text-end w-[20px] me-1">#</p>
                 <p>Title</p>
                 <div></div>
               </div>
@@ -145,9 +148,7 @@ function Playlist() {
 
           <Songs />
         </section>
-    </div>
-    </>
-      
+    </div>    
  );
 }
 

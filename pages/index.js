@@ -1,12 +1,14 @@
-import Sidebar from "../components/sidebar"
-import PlaylistView from "../components/views/playlist"
+import Playlist from "../components/views/playlist"
 import { getSession } from "next-auth/react"
 import Player from "@/components/player"
 import User from "@/components/user"
 import { useRecoilState } from "recoil"
 import { currentViewState } from "@/atoms/viewAtom"
-import HomeView from "@/components/views/home"
 import { isLoadingState } from "@/atoms/isLoadingAtom"
+import Search from "@/components/views/search"
+import Library from "@/components/views/library"
+import Home from "@/components/views/home"
+import Loading from "@/components/views/loading"
 
 export const metadata = {
   title: 'test',
@@ -20,8 +22,11 @@ export default function Index() {
   return (
     <>
       <header />
-      {view === "home" ? <HomeView /> : null}
-      {view === "playlist" ? <PlaylistView />: null}``
+      {isLoading ? <Loading/> : null}
+      {view === "home" ? <Home /> : null}
+      {view === "playlist" ? <Playlist />: null}
+      {view === "search" ?  <Search/>: null}
+      {view === "library" ? <Library />: null}
     </>
   )
 }

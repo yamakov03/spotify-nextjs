@@ -6,6 +6,7 @@ import {
     PlusCircleIcon,
     RssIcon,
     LogoutIcon,
+    BookOpenIcon,
 } from "@heroicons/react/outline";
 import { HeartIcon } from "@heroicons/react/solid";
 import { signOut, useSession } from "next-auth/react";
@@ -35,7 +36,7 @@ function Sidebar() {
                             offset: userPl.limit * i // Offset each call by the limit * the call's index
                         })).body;
                         // Push the retreived tracks into the array
-                        trackToAdd.items.forEach((item) => userPl.items.push(item));
+                        userPl.concat(trackToAdd.items);
                     }
                 }
                 setPlaylists(userPl.items);
@@ -55,15 +56,17 @@ function Sidebar() {
                     <HomeIcon className="h-5 w-5" />
                     <p>Home</p>
                 </button>
-                <button className="flex items-center space-x-2 hover:text-white">
+                <button className="flex items-center space-x-2 hover:text-white"
+                onClick={() => setView("search")}>
                     <SearchIcon className="h-5 w-5" />
                     <p>Search</p>
                 </button>
-                <button className="flex items-center space-x-2 hover:text-white">
-                    <LibraryIcon className="h-5 w-5" />
+                <button className="flex items-center space-x-2 hover:text-white"
+                onClick={() => setView("library")}>
+                    <BookOpenIcon className="h-5 w-5" />
                     <p>Your Library</p>
                 </button>
-                <hr className="border-t-[0.1px] border-neutral-800" />
+                <div className="h-[.1px]"></div>
 
                 <button className="flex items-center space-x-2 hover:text-white">
                     <PlusCircleIcon className="h-5 w-5" />
@@ -81,7 +84,7 @@ function Sidebar() {
 
                 {/* Playlists */}
                 {playlists.map((playlist) => (
-                    <p key={playlist.id} onClick={async () => {setPlaylistId(playlist.id) ; setIsLoading(true); setView("playlist")   }}
+                    <p key={playlist.id} onClick={() => {setPlaylistId(playlist.id) ; {playlist.id !== playlistId ? setIsLoading(true) : null}; setView("playlist")  }}
                         className="cursor-pointer hover:text-white">{playlist.name}</p>
                 ))}
                 <div className="mb-5"></div>
