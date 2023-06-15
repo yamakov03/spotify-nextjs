@@ -1,8 +1,8 @@
-import Sidebar from '@/components/sidebar';
+import Sidebar from '@/src/components/sidebar';
 import dynamic from 'next/dynamic';
 import React, { FunctionComponent, ReactNode } from 'react'
-import User from "@/components/user"
-import Player from '@/components/player';
+import User from "@/src/components/user"
+import Player from '@/src/components/player';
 
 
 const MainLayout = (props) => {

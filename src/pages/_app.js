@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil';
 import 'tailwindcss/tailwind.css'
 import { Figtree } from 'next/font/google'
 import { motion, Variants } from 'framer-motion';
-import MainLayout from '@/layouts/mainLayout';
+import MainLayout from '@/src/layouts/mainLayout';
 const figtree = Figtree({
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],

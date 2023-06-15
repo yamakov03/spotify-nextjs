@@ -1,33 +1,26 @@
-import { currentTrackIdState, isPlayingState } from '@/atoms/songAtom';
-import useSpotify from '@/hooks/useSpotify';
-import { millisecondsToMinutesAndSeconds } from '@/lib/time'
+import { currentTrackIdState, isPlayingState } from '@/src/atoms/songAtom';
+import useSpotify from '@/src/hooks/useSpotify';
+import { millisecondsToMinutesAndSeconds } from '@/src/lib/time'
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import AnimatedBars from './animatedBars';
 import { PlayIcon } from '@heroicons/react/solid';
 import { IoPauseSharp, IoPlaySharp } from 'react-icons/io5';
-import { display } from '@microsoft/fast-foundation';
+import { playingState } from '../atoms/playingAtom';
 
 function Song({ order, track }) {
-    const spotifyApi = useSpotify();
-    const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
-    const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
     const [isHovering, setIsHovering] = useState(false);
-
-    const playSong = async () => {
-
-        setIsPlaying(true);
-        // spotifyApi.play({
-        //     uris: [track.track.uri],
-        // });
-    };
+    const [playing, setPlaying] = useRecoilState(playingState);
 
     const handlePlayPause = () => {
-        if (isPlaying && track.track.id === currentTrackId) {
-            setIsPlaying(false);
-        } else {
-            setCurrentTrackId(track.track.id);
-            setIsPlaying(true);
+        if (playing.id !== track.track.id) {
+            setPlaying({type:"track", id:track.track.id, isPlaying:true})
+            console.log(playing)
+        } else if (playing.isPlaying) {
+            setPlaying({type:"track", id:track.track.id, isPlaying:false})
+        }
+        else {
+            setPlaying({type:"track", id:track.track.id, isPlaying:true})
         }
     }
 
@@ -39,12 +32,12 @@ function Song({ order, track }) {
         <div className={`grid grid-cols-2 text-neutral-400 py-2 my-2 px-5 hover:bg-neutral-600 song
         rounded-lg cursor-pointer `} onClick={() => handlePlayPause()} >
             <div className='flex items-center '>
-                <div className={`text-end w-[20px] flex-shrink-0 me-6 hover-hidden ${track.track.id === currentTrackId ? 'text-[--text-bright-accent]' : null}`} >
-                    {track.track.id === currentTrackId && isPlaying ? <AnimatedBars /> : order + 1}
+                <div className={`text-end w-[20px] flex-shrink-0 me-6 hover-hidden ${track.track.id === playing.id ? 'text-[--text-bright-accent]' : null}`} >
+                    {track.track.id === playing.id && playing.isPlaying ? <AnimatedBars /> : order + 1}
                     </div>
 
                 <div className="text-end w-[20px] me-[24px] hover-show" >
-                {isPlaying && track.track.id === currentTrackId ?
+                {playing.isPlaying && track.track.id === playing.id ?
                         <IoPauseSharp style={{ fontSize: "20px", width: "20px", position: "relative", left: "5px"}} /> :
                         <IoPlaySharp style={{ fontSize: "20px", width: "20px", position: "relative", left: "5px"}} />} 
                     </div>
@@ -54,7 +47,7 @@ function Song({ order, track }) {
                     src={track.track.album.images[0].url}
                     alt="" />
                 <div>
-                    <p className={`w-40 lg:w-64 pe-5 truncate ${track.track.id === currentTrackId ? 'text-[--text-bright-accent]' : 'text-white'}`}>{track.track.name}</p>
+                    <p className={`w-40 lg:w-64 pe-5 truncate ${track.track.id === playing.id ? 'text-[--text-bright-accent]' : 'text-white'}`}>{track.track.name}</p>
 
                     <div className='flex'>
                         {track.track.explicit && (

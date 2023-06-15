@@ -2,7 +2,6 @@
 import {
     HomeIcon,
     SearchIcon,
-    LibraryIcon,
     PlusCircleIcon,
     RssIcon,
     LogoutIcon,
@@ -13,10 +12,10 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
 import { useRecoilState } from "recoil";
-import { playlistIdState } from "@/atoms/playlistAtom";
-import { currentViewState } from "@/atoms/viewAtom";
-import { isLoadingState } from "@/atoms/isLoadingAtom";
-
+import { playlistIdState } from "@/src/atoms/playlistAtom";
+import { currentViewState } from "@/src/atoms/viewAtom";
+import { isLoadingState } from "@/src/atoms/isLoadingAtom";
+import { playingState } from "../atoms/playingAtom";
 function Sidebar() {
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
@@ -24,6 +23,7 @@ function Sidebar() {
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
     const [view, setView] = useRecoilState(currentViewState);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+    const [playing, setPlaying] = useRecoilState(playingState);
 
     useEffect(() => {
         (async () => {
