@@ -65,10 +65,11 @@ export default NextAuth({
             return await refreshAccessToken(token);
         },
         async session({ session, token }) {
-            session.user.accessToken = token.accessToken;
-            session.user.refreshToken = token.refreshToken;
-            session.user.username = token.username;
-
+            if(token){
+                session.user.accessToken = token.accessToken;
+                session.user.refreshToken = token.refreshToken;
+                session.user.username = token.username;
+            }
             return session;
         }
     },

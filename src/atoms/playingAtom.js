@@ -3,8 +3,9 @@ import { atom } from "recoil";
 export const playingState = atom ({
     key: 'playingState',
     default: {
-        id: null,
-        type: null,
+        trackId: null,
+        playlistId: null,
+        typePlaying: null,
         isPlaying: false,
     },
 })

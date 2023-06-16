@@ -1,10 +1,10 @@
+import { useSession } from 'next-auth/react';
 import React from 'react'
 
 function FreePlayer() {
     const spotifyApi = useSpotify();
 
     const { data: session, status } = useSession();
-    const [isPremium, setIsPremium] = useState(false);
     const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
     const [volume, setVolume] = useState(50);
@@ -16,12 +16,6 @@ function FreePlayer() {
             setVolume(100);
         }
     }, [currentTrackIdState, spotifyApi, session]);
-
-    useEffect(() => {
-        if (spotifyApi.getAccessToken()) {
-            spotifyApi.getMe().then((data) => setIsPremium(data.body.product === 'premium'));
-        }
-    }, [session, status]);
 
     const fetchCurrentSong = () => {
         if (!songInfo) {

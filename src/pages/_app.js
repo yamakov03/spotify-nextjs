@@ -3,8 +3,7 @@ import { SessionProvider } from "next-auth/react"
 import { RecoilRoot } from 'recoil';
 import 'tailwindcss/tailwind.css'
 import { Figtree } from 'next/font/google'
-import { motion, Variants } from 'framer-motion';
-import MainLayout from '@/src/layouts/mainLayout';
+import MainLayout from '../layouts/mainLayout';
 const figtree = Figtree({
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
@@ -27,7 +26,7 @@ const appVariants = {
 }
 
 
-function App({
+export default function App({
   Component,
   pageProps: { session, ...pageProps },
   router
@@ -36,19 +35,20 @@ function App({
 
     <SessionProvider session={session}>
       <RecoilRoot>
-      
+
         {router.route.includes('/login') ?
           <main className={figtree.className}>
             <Component {...pageProps} />
           </main>
           :
-
-          <MainLayout>
-              <main className={`${figtree.className} flex-grow h-[calc(100vh-5rem)]`}>
-                <Component {...pageProps}/>
-              </main>
-          </MainLayout>
-
+          <main className={`${figtree.className}`}>
+            <MainLayout>
+              <div className='flex-grow ms-2 me-2 pt-2 '>
+              <Component {...pageProps} />
+              </div>
+              
+            </MainLayout>
+          </main>
         }
       </RecoilRoot>
     </SessionProvider>
@@ -56,5 +56,3 @@ function App({
 
   )
 }
-
-export default App;

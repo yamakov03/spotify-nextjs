@@ -1,14 +1,14 @@
 import Playlist from "../components/views/playlist"
 import { getSession } from "next-auth/react"
-import Player from "@/src/components/player"
-import User from "@/src/components/user"
+import Player from "../components/player"
+import User from "../components/user"
 import { useRecoilState } from "recoil"
-import { currentViewState } from "@/src/atoms/viewAtom"
-import { isLoadingState } from "@/src/atoms/isLoadingAtom"
-import Search from "@/src/components/views/search"
-import Library from "@/src/components/views/library"
-import Home from "@/src/components/views/home"
-import Loading from "@/src/components/views/loading"
+import { currentViewState } from "../atoms/viewAtom"
+import { isLoadingState } from "../atoms/isLoadingAtom"
+import Search from "../components/views/search"
+import Library from "../components/views/library"
+import Home from "../components/views/home"
+import Loading from "../components/views/loading"
 
 export const metadata = {
   title: 'test',

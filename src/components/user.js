@@ -1,5 +1,5 @@
-import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
+import { IoChevronDown } from "react-icons/io5";
 
 function User() {
     const { data: session } = useSession();
@@ -15,7 +15,7 @@ function User() {
                     className="rounded-full w-10 h-10"
                 />
                 <p className="ml-2">{session?.user.name}</p>
-                <ChevronDownIcon className="h-5 w-5" />
+                <IoChevronDown className="h-5 w-5" />
             </div>
         </header>
     )
