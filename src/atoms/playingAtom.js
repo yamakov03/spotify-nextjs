@@ -7,5 +7,7 @@ export const playingState = atom ({
         playlistId: null,
         typePlaying: null,
         isPlaying: false,
+        trackOrder: 0,
+        tracks: [],
     },
 })

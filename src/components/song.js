@@ -1,55 +1,50 @@
 import { currentTrackIdState, isPlayingState } from '../atoms/songAtom';
 import useSpotify from '../hooks/useSpotify';
-import { millisecondsToMinutesAndSeconds } from '../lib/time'
-import React, { useState } from 'react'
+import { millisecondsToMinutesAndSeconds, toDateFormat } from '../lib/time'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import AnimatedBars from './animatedBars';
 import { PlayIcon } from '@heroicons/react/solid';
 import { IoPauseSharp, IoPlaySharp } from 'react-icons/io5';
 import { playingState } from '../atoms/playingAtom';
+import { playlistState } from '../atoms/playlistAtom';
+import { spotifyApi } from 'react-spotify-web-playback';
 
-function Song({ order, track }) {
-    const [isHovering, setIsHovering] = useState(false);
+function Song({ order, track, playlistId }) {
     const [playing, setPlaying] = useRecoilState(playingState);
 
     const handlePlayPause = () => {
         if (playing.trackId !== track.track.id) {
-            setPlaying({typePlaying:"track", trackId:track.track.id, isPlaying:true})
-            console.log(playing)
+            setPlaying({ ...playing, trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
         } else if (playing.isPlaying) {
-            setPlaying({typePlaying:"track", trackId:track.track.id, isPlaying:false})
-            console.log(playing, "2")
+            setPlaying({ ...playing, trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
         }
         else {
-            setPlaying({typePlaying:"track", trackId:track.track.id, isPlaying:true})
-            console.log(playing, "3")
+            setPlaying({ ...playing, trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
         }
     }
 
-    const toggleHover = () => {
-        setIsHovering(!isHovering);
-    }
 
     return (
-        <div className={`grid grid-cols-2 text-neutral-400 my-2 px-5 hover:bg-neutral-800 song
+        <div className={`grid-container grid grid-cols-2 text-neutral-400 my-2 px-5 hover:bg-neutral-700 song
         rounded-lg cursor-pointer `} onClick={() => handlePlayPause()} >
             <div className='flex items-center py-1'>
                 <div className={`text-end w-[20px] flex-shrink-0 me-6 hover-hidden ${track.track.id === playing.trackId ? 'text-[--text-bright-accent]' : null}`} >
                     {track.track.id === playing.trackId && playing.isPlaying ? <AnimatedBars /> : order + 1}
-                    </div>
+                </div>
 
-                <div className="text-end w-[20px] me-[24px] hover-show" >
-                {playing.isPlaying && track.track.id === playing.trackId ?
-                        <IoPauseSharp style={{ fontSize: "20px", width: "20px", position: "relative", left: "5px"}} /> :
-                        <IoPlaySharp style={{ fontSize: "20px", width: "20px", position: "relative", left: "5px"}} />} 
-                    </div>
+                <div className="text-end w-[20px] me-[22px] ms-[2px] hover-show" >
+                    {playing.isPlaying && track.track.id === playing.trackId ?
+                        <IoPauseSharp style={{ fontSize: "20px", width: "20px", position: "relative", left: "5px" }} /> :
+                        <IoPlaySharp style={{ fontSize: "20px", width: "20px", position: "relative", left: "5px" }} />}
+                </div>
 
                 <img
                     className='h-10 w-10 me-6'
                     src={track.track.album.images[0].url}
                     alt="" />
                 <div className=''>
-                    <p className={`w-40 xl:w-[330px]  truncate ${track.track.id === playing.trackId ? 'text-[--text-bright-accent]' : 'text-white'}`}>{track.track.name}</p>
+                    <p className={`w-[180px] xl:w-[300px]  truncate ${track.track.id === playing.trackId ? 'text-[--text-bright-accent]' : 'text-white'}`}>{track.track.name}</p>
 
                     <div className='flex'>
                         {track.track.explicit && (
@@ -61,10 +56,11 @@ function Song({ order, track }) {
                     </div>
                 </div>
             </div>
-            <div className='flex items-center justify-end lg:justify-between ml-auto md:ml-0'>
-                <p className='w-40 hidden lg:inline truncate'>{track.track.album.name}</p>
+            <div className='flex items-center justify-end  ml-auto md:ml-0'>
+                <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>{track.track.album.name}</p>
 
-                <p>{millisecondsToMinutesAndSeconds(track.track.duration_ms)}</p>
+                <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>{toDateFormat(track.added_at)}</p>
+                <p className='w-20 flex justify-end items-end'>{millisecondsToMinutesAndSeconds(track.track.duration_ms)}</p>
             </div>
         </div>
     )

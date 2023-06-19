@@ -12,9 +12,9 @@ function User() {
                 <img
                     src={session?.user.image}
                     alt=""
-                    className="rounded-full w-10 h-10"
+                    className="rounded-full w-7 h-7"
                 />
-                <p className="ml-2">{session?.user.name}</p>
+                <p className="">{session?.user.name}</p>
                 <IoChevronDown className="h-5 w-5" />
             </div>
         </header>

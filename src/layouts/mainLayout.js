@@ -7,7 +7,7 @@ import Sidebar from '../components/sidebar';
 
 const MainLayout = (props) => {
     return (
-        <main className="bg-black h-screen">
+        <main className="bg-black h-screen scrollbar-hide">
             <User />
             <div className='flex'>
                 {/* Sidebar */}

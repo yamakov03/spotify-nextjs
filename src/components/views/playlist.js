@@ -58,21 +58,15 @@ function Playlist() {
     sourceImage.onload = function () {
       var colorThief = new ColorThief();
       var rgb = colorThief.getColor(sourceImage);
-      
-      var palette = colorThief.getPalette(sourceImage, 2);
+
+      var palette = colorThief.getPalette(sourceImage, 3);
       var hex = [rgbToHex(palette[0][0], palette[0][1], palette[0][2]), rgbToHex(palette[1][0], palette[1][1], palette[1][2])]
 
       if ((0.2126 * palette[0][0] + 0.7152 * palette[0][1] + 0.0722 * palette[0][2]) > (0.2126 * palette[1][0] + 0.7152 * palette[1][1] + 0.0722 * palette[1][2])) {
-        setColors([`${hex[1]}`, `${hex[0]}`]) }
-        else {setColors([`${hex[0]}`, `${hex[1]}`]);}
-        
-
-
-      setLuma();
-
-      
+        setColors([`${hex[0]}`, `${hex[1]}`])
+      }
+      else { setColors([`${hex[1]}`, `${hex[0]}`]); }
     };
-
   }, [playlistId, colors]);
 
   useEffect(() => {
@@ -91,22 +85,27 @@ function Playlist() {
           ).body;
 
           // Push the retreived tracks into the array
-          trackToAdd.items.forEach((item) => pl.tracks.items.push(item));
+          pl.tracks.items.concat(trackToAdd.items);
         }
       }
 
       setPlaylist(pl);
-      setIsLoading(false);
-      window.scrollTo({ x: 1, y: 0 });
     })();
+
+
   }, [spotifyApi, playlistId]);
 
-  useEffect(() => { }, [playlistId]);
+  const scrollTop = () => {
+    var div = document.getElementById("mainContent");
+    div.scrollTop = 0;
+  }
 
   return (
     <div
+
+      id="mainContent"
       className={
-        "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-20% to-100%  rounded-md scrollbar-hide" +
+        "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-10% to-100%  rounded-md scrollbar-hide" +
         (isLoading ? " hidden" : "")
       }
       style={Object.assign(
@@ -127,10 +126,10 @@ function Playlist() {
     >
       {/* header */}
       <section
-        className={`flex items-end space-x-0 lg:space-x-7  h-[400px] text-white pl-8 pr-8 pb-8 pt-6 `}
+        className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
       >
         <img
-          className="h-52 w-52 hidden lg:inline shadow-2xl rounded-xl"
+          className="h-56 w-56 hidden lg:inline shadow-2xl rounded-xl"
           src={playlist?.images?.[0].url}
           alt=""
           id="myImg"
@@ -154,7 +153,7 @@ function Playlist() {
             </a>
             <p className="text-sm">
               {playlist?.tracks?.total}&nbsp;songs
-              {playlist?.tracks?.total > 200 ? " (200 shown)," : null}&nbsp;
+              {playlist?.tracks?.total > 200 ? " (200 shown)" : null},&nbsp;
             </p>
             <p className="text-sm text-[--text-subdued]">
               about {(playlist?.tracks?.total * 3) / 60} hr
@@ -164,17 +163,14 @@ function Playlist() {
       </section>
 
       {/* songs */}
-      <section className="bg-neutral-900 bg-opacity-70">
+      <section className="bg-neutral-900 bg-opacity-70" onLoad={() => { scrollTop(), setIsLoading(false) }}>
         {/* playlist functions */}
         <div className="flex items-center py-7">
           <div
             className="text-[--text-bright-accent] px-8 flex flex-col space-y-1"
-            onClick={() =>
-              setPlaying({
-                typePlaying: "playlist",
-                playlistId: playlistId,
-                isPlaying: true,
-              })
+            onClick={() => {
+              setPlaying({ playlistId: playlistId, isPlaying: true, trackId: playlist?.tracks.items[0]?.track?.id })
+            }
             }
           >
             <svg
@@ -191,12 +187,12 @@ function Playlist() {
             </svg>
           </div>
           <div className="btn text-[--text-subdued] flex flex-col space-y-1 cursor-pointer">
-            <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" class="Svg-sc-ytk21e-0 haNxPq"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm15 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" fill="currentColor"></path></svg>
+            <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="Svg-sc-ytk21e-0 haNxPq"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm15 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" fill="currentColor"></path></svg>
           </div>
         </div>
 
         {/* songs header */}
-        <div className="grid grid-cols-2 text-neutral-400  px-8">
+        <div className="grid grid-cols-2 text-neutral-400  ps-4 pe-8">
           <div className="grid grid-cols-2 text-neutral-400 px-5" >
             <div className="flex items-center space-x-4 ">
               <p className="text-end w-[20px] me-1">#</p>
@@ -204,9 +200,11 @@ function Playlist() {
               <div></div>
             </div>
           </div>
-          <div className="flex items-center justify-end lg:justify-between ml-auto md:ml-0">
-          <p className="w-40 hidden lg:inline">Album</p>
-            <ClockIcon className="h-5 w-5 justify-end me-6" />
+          <div className='flex items-center justify-end  ml-auto md:ml-0'>
+            <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>Album</p>
+
+            <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
+            <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
           </div>
         </div>
         <div className=" text-neutral-400 mt-2 px-8">

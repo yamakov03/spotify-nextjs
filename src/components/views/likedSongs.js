@@ -1,6 +1,6 @@
 function LikedSongs() {
   return (
-    <div>LikedSongs</div>
+    <div>Liked Songs</div>
   )
 }
 

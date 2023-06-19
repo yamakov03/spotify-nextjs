@@ -43,7 +43,7 @@ export default function App({
           :
           <main className={`${figtree.className}`}>
             <MainLayout>
-              <div className='flex-grow ms-2 me-2 pt-2 '>
+              <div className='flex-grow ms-2 me-2 pt-2 scrollbar-hide'>
               <Component {...pageProps} />
               </div>
               
