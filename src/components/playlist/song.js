@@ -1,26 +1,24 @@
-import { currentTrackIdState, isPlayingState } from '../atoms/songAtom';
-import useSpotify from '../hooks/useSpotify';
-import { millisecondsToMinutesAndSeconds, toDateFormat } from '../lib/time'
+import useSpotify from '../../hooks/useSpotify';
+import { millisecondsToMinutesAndSeconds, toDateFormat } from '../../lib/time'
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import AnimatedBars from './animatedBars';
 import { PlayIcon } from '@heroicons/react/solid';
 import { IoPauseSharp, IoPlaySharp } from 'react-icons/io5';
-import { playingState } from '../atoms/playingAtom';
-import { playlistState } from '../atoms/playlistAtom';
-import { spotifyApi } from 'react-spotify-web-playback';
+import { playingState } from '../../atoms/playingAtom';
 
 function Song({ order, track, playlistId }) {
     const [playing, setPlaying] = useRecoilState(playingState);
 
     const handlePlayPause = () => {
+        
         if (playing.trackId !== track.track.id) {
-            setPlaying({ ...playing, trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
+            setPlaying({ ...playing, typePlaying:"track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
         } else if (playing.isPlaying) {
-            setPlaying({ ...playing, trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
+            setPlaying({ ...playing, typePlaying:"track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
         }
         else {
-            setPlaying({ ...playing, trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
+            setPlaying({ ...playing, typePlaying:"track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
         }
     }
 

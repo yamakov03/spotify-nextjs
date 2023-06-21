@@ -14,7 +14,7 @@ const scopes = [
     "user-library-read",
     "user-follow-read",
     "playlist-read-private",
-    "playlist-read-collaborative",
+    "playlist-read-collaborative"
 ].join(',');
 
 const params = {

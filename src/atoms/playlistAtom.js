@@ -9,3 +9,8 @@ export const playlistIdState = atom ({
     key: 'playlistIdState',
     default: null,
 })
+
+export const likedSongsState = atom ({
+    key: 'likedSongsState',
+    default: null,
+})

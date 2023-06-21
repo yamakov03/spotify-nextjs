@@ -13,3 +13,27 @@ export function toDateFormat(timestamp) {
     return `${month} ${day}, ${year}`;
 
 }
+
+export function greeting() {
+    const hours = new Date().getHours();
+
+    if (hours < 12) {
+        return ('Good morning');
+    } else if (hours >= 12 && hours < 18) {
+        return ('Good afternoon');
+    } else {
+        return ('Good evening');
+    }
+}
+
+export function timeColor() {
+    const hours = new Date().getHours();
+
+    if (hours < 12) {
+        return ('text-[#FFD700]');
+    } else if (hours >= 12 && hours < 18) {
+        return ('text-[#FFA500]');
+    } else {
+        return ('text-[#FF6347]');
+    }
+}

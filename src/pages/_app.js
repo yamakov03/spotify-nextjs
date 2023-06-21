@@ -4,6 +4,7 @@ import { RecoilRoot } from 'recoil';
 import 'tailwindcss/tailwind.css'
 import { Figtree } from 'next/font/google'
 import MainLayout from '../layouts/mainLayout';
+import { isLoadingState } from '../atoms/isLoadingAtom';
 const figtree = Figtree({
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
@@ -43,7 +44,7 @@ export default function App({
           :
           <main className={`${figtree.className}`}>
             <MainLayout>
-              <div className='flex-grow ms-2 me-2 pt-2 scrollbar-hide'>
+              <div className='flex-grow min-w-0 ms-2 me-2 pt-2 scrollbar-hide'>
               <Component {...pageProps} />
               </div>
               

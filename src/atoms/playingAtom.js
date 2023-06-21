@@ -4,6 +4,7 @@ export const playingState = atom ({
     key: 'playingState',
     default: {
         trackId: null,
+        artistId: null,
         playlistId: null,
         typePlaying: null,
         isPlaying: false,

@@ -12,13 +12,14 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { playlistIdState, playlistState } from "../../atoms/playlistAtom";
 import useSpotify from "../../hooks/useSpotify";
-const Songs = dynamic(() => import("../songs"));
+const Songs = dynamic(() => import("../playlist/songs"));
 import dynamic from "next/dynamic";
 import ReactHtmlParser from "react-html-parser";
 import ColorThief from "colorthief";
 import { isLoadingState } from "../../atoms/isLoadingAtom";
 import { currentViewState } from "../../atoms/viewAtom";
 import { playingState } from "../../atoms/playingAtom";
+import { shadeColor } from "../../lib/colors";
 
 const appVariants = {
   initial: {
@@ -54,19 +55,30 @@ function Playlist() {
       return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
     }
 
+
+
     var sourceImage = document.getElementById("myImg");
     sourceImage.onload = function () {
       var colorThief = new ColorThief();
       var rgb = colorThief.getColor(sourceImage);
 
-      var palette = colorThief.getPalette(sourceImage, 3);
+      var palette = colorThief.getPalette(sourceImage, 2);
       var hex = [rgbToHex(palette[0][0], palette[0][1], palette[0][2]), rgbToHex(palette[1][0], palette[1][1], palette[1][2])]
 
-      if ((0.2126 * palette[0][0] + 0.7152 * palette[0][1] + 0.0722 * palette[0][2]) > (0.2126 * palette[1][0] + 0.7152 * palette[1][1] + 0.0722 * palette[1][2])) {
-        setColors([`${hex[0]}`, `${hex[1]}`])
-      }
-      else { setColors([`${hex[1]}`, `${hex[0]}`]); }
-    };
+      var luma1 = (0.2126 * palette[0][0] + 0.7152 * palette[0][1] + 0.0722 * palette[0][2])
+      var luma2 = (0.2126 * palette[1][0] + 0.7152 * palette[1][1] + 0.0722 * palette[1][2])
+
+      if (luma1 > luma2) {
+        if (luma1 > 0.8) {
+          setColors([`${shadeColor(hex[0], -10)}`, `${hex[1]}`])
+        } else {
+          setColors([`${hex[0]}`, `${hex[1]}`]);
+        }
+      } else if (luma2 > 0.8) {
+        setColors([`${shadeColor(hex[1], -10)}`, `${hex[0]}`])
+      } else { setColors([`${hex[1]}`, `${hex[0]}`]); }
+    }
+
   }, [playlistId, colors]);
 
   useEffect(() => {
@@ -85,12 +97,14 @@ function Playlist() {
           ).body;
 
           // Push the retreived tracks into the array
-          pl.tracks.items.concat(trackToAdd.items);
+          pl.tracks.items = pl.tracks.items.concat(trackToAdd.items);
         }
       }
 
       setPlaylist(pl);
-    })();
+    })
+
+      ();
 
 
   }, [spotifyApi, playlistId]);
@@ -102,10 +116,9 @@ function Playlist() {
 
   return (
     <div
-
       id="mainContent"
       className={
-        "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-10% to-100%  rounded-md scrollbar-hide" +
+        "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-0% to-100%  rounded-md scrollbar-hide" +
         (isLoading ? " hidden" : "")
       }
       style={Object.assign(
@@ -124,6 +137,7 @@ function Playlist() {
         }
       )}
     >
+
       {/* header */}
       <section
         className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
@@ -136,28 +150,40 @@ function Playlist() {
           crossOrigin="anonymous"
         />
         <div>
-          <p className="text-xl font-semibold mb-2">Playlist</p>
+          <p className="text-md font-semibold mb-2">Playlist</p>
 
-          <h1 className="xl:text-6xl md:text-4xl text-2xl font-bold">
+          <h1 className="xl:text-7xl md:text-6xl text-2xl font-extrabold">
             {playlist?.name}
           </h1>
-          <div className="text-neutral-200 text-sm mt-2">
+          <div className="text-neutral-200 text-md mt-2">
             {ReactHtmlParser(playlist?.description)}
           </div>
           <div className="flex mt-2">
-            <a
-              className="text-sm font-semibold me-2"
-              href={playlist?.owner.href}
-            >
-              {playlist?.owner.display_name}&nbsp;&nbsp;•
-            </a>
-            <p className="text-sm">
-              {playlist?.tracks?.total}&nbsp;songs
-              {playlist?.tracks?.total > 200 ? " (200 shown)" : null},&nbsp;
-            </p>
-            <p className="text-sm text-[--text-subdued]">
-              about {(playlist?.tracks?.total * 3) / 60} hr
-            </p>
+            {playlist?.tracks?.total > 200 ?
+              <>
+                <a className="text-md font-semibold me-2" href={playlist?.owner?.href}>
+                  {playlist?.owner?.display_name}&nbsp;&nbsp;•
+                </a>
+                <p className="text-md">
+                  {playlist?.tracks?.total}&nbsp;songs&nbsp;
+                </p>
+                <p className="text-md text-[--text-subdued]">
+                  (200 shown),
+                  about {(playlist?.tracks?.total * 3) / 60} hr
+                </p>
+              </>
+              :
+              <>
+                <a className="text-md font-semibold me-2" href={playlist?.owner?.href}>
+                  {playlist?.owner?.display_name}&nbsp;&nbsp;•
+                </a>
+                <p className="text-md">
+                  {playlist?.tracks?.total}&nbsp;songs,&nbsp;
+                </p>
+                <p className="text-md text-[--text-subdued]">
+                  about {(playlist?.tracks?.total * 3) / 60} hr
+                </p>
+              </>}
           </div>
         </div>
       </section>
@@ -169,12 +195,12 @@ function Playlist() {
           <div
             className="text-[--text-bright-accent] px-8 flex flex-col space-y-1"
             onClick={() => {
-              setPlaying({ playlistId: playlistId, isPlaying: true, trackId: playlist?.tracks.items[0]?.track?.id })
+              setPlaying({ ...playing, typePlaying: "track", trackOrder: 0, playlistId: playlistId, trackId: playlist?.tracks.items[0]?.track?.id, isPlaying: true })
             }
             }
           >
             <svg
-              className="btn cursor-pointer"
+              className="btn cursor-pointer bg-black shadow-xl shadow-black/10 rounded-full "
               height="3.5em"
               preserveAspectRatio="xMidYMid"
               viewBox="0 0 64 64"
@@ -192,24 +218,28 @@ function Playlist() {
         </div>
 
         {/* songs header */}
-        <div className="grid grid-cols-2 text-neutral-400  ps-4 pe-8">
-          <div className="grid grid-cols-2 text-neutral-400 px-5" >
-            <div className="flex items-center space-x-4 ">
-              <p className="text-end w-[20px] me-1">#</p>
-              <p>Title</p>
-              <div></div>
+        <div className="">
+          <div className="grid grid-cols-2 text-neutral-400  ps-4 pe-8 ">
+            <div className="grid grid-cols-2 text-neutral-400 px-5" >
+              <div className="flex items-center space-x-4 ">
+                <p className="text-end w-[20px] me-1">#</p>
+                <p>Title</p>
+                <div></div>
+              </div>
+            </div>
+            <div className='flex items-center justify-end  ml-auto md:ml-0'>
+              <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>Album</p>
+
+              <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
+              <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
             </div>
           </div>
-          <div className='flex items-center justify-end  ml-auto md:ml-0'>
-            <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>Album</p>
-
-            <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
-            <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
+          <div className=" text-neutral-400 mt-2 px-8">
+            <hr className="border-t-[0.1px] border-neutral-700 mb-2" />
           </div>
+
         </div>
-        <div className=" text-neutral-400 mt-2 px-8">
-          <hr className="border-t-[0.1px] border-neutral-700 mb-2" />
-        </div>
+
 
         <Songs />
       </section>
