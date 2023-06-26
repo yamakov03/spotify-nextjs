@@ -1,9 +1,10 @@
 import { getProviders, signIn } from 'next-auth/react';
+import { getGradient } from '../lib/time';
 
 function Login({ providers }) {
 
   return (
-    <div className='flex flex-col items-center bg-black min-h-screen w-full justify-center'>
+    <div className={`flex flex-col ${getGradient()} items-center min-h-screen w-full justify-center`}>
       <h1 className='text-white lg:text-7xl sm: text-4xl font-bold mb-10'>spotify-next</h1>
 
       {Object.values(providers).map((provider) => (

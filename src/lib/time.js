@@ -28,7 +28,6 @@ export function greeting() {
 
 export function timeColor() {
     const hours = new Date().getHours();
-
     if (hours < 12) {
         return ('text-[#FFD700]');
     } else if (hours >= 12 && hours < 18) {
@@ -36,4 +35,12 @@ export function timeColor() {
     } else {
         return ('text-[#FF6347]');
     }
+}
+export function getHours() {
+    const hours = new Date().getHours();
+    return hours;
+}
+
+export function getGradient() {
+    return "g" + new Date().getHours() 
 }

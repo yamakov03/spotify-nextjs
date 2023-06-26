@@ -8,19 +8,21 @@ import { lumaHex, lumaValue, shadeColor } from "../lib/colors";
 import { useClickAway } from "@uidotdev/usehooks";
 import { preferencesState } from "../atoms/userPreferences";
 import { useCookies } from 'react-cookie';
+import { getGradient, getHours } from "../lib/time";
 
 function User() {
     const { data: session } = useSession();
     const [showDropdown, setShowDropdown] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
-    const [color, setColor] = useState("#406cbf");
+    
     // const [preferences, setPreferences] = useState({
     //     theme: 'dark',
     //     accent: '#282828',
     //     home: 'accent'
     // });
     const [preferences, setPreferences] = useRecoilState(preferencesState);
-    const [cookies, setCookie, removeCookie] = useCookies(preferences);
+    const [cookies, setCookie, removeCookie] = useCookies(['preferencesCookie']);
+    const [color, setColor] = useState(cookies.preferencesCookie?.homeColor ? cookies.preferencesCookie.homeColor : '#282828');
 
     const settingsButtonRef = useRef(null);
 
@@ -28,50 +30,54 @@ function User() {
 
     useEffect(() => {
         if (color) {
-            if (lumaHex(color) > 120) {
-                if (preferences.sidebar === 'flat') {
-                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#404040');
-                    document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
-                }
-                document.documentElement.style.setProperty('--text-bright-accent', '#00bd42');
-                document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 10%, 0.1)');
+            // if (lumaHex(color) > 120) {
+            //     if (preferences.sidebar === 'flat') {
+            //         document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
+            //         document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+            //     }
+            //     document.documentElement.style.setProperty('--text-bright-accent', '#00bd42');
+            //     document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 10%, 0.1)');
 
-            } else {
-                if (preferences.sidebar === 'flat') {
-                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-                    document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
-                }
-                document.documentElement.style.setProperty('--text-bright-accent', '#1ed760');
-                document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 100%, 0.1)');
-            }
+            // } else {
+            //     if (preferences.sidebar === 'flat') {
+            //         document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
+            //         document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+            //     }
+            //     document.documentElement.style.setProperty('--text-bright-accent', '#1ed760');
+            //     document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 100%, 0.1)');
+            // }
             document.documentElement.style.setProperty('--background-base', color);
-
-
         }
     }, [color])
 
     useEffect(() => {
-        setPreferences({ ...preferences, homeColor: color })
-    }, [color])
+        setCookie('preferencesCookie', preferences, { path: '/' });
+    }, [preferences])
+
+    useEffect(() => {
+        if(cookies.preferencesCookie) {
+            setPreferences(cookies.preferencesCookie)
+        }
+    }, [])
 
 
     useEffect(() => {
         if (preferences.theme === "light") {
             document.documentElement.style.setProperty('--background-press', '#fff');
-            document.documentElement.style.setProperty('--text-subdued', '#404040');
+            document.documentElement.style.setProperty('--text-subdued', '#606060');
             document.documentElement.style.setProperty('--text-light', '#181818e6');
-            document.documentElement.style.setProperty('--ui-text-subdued', '#404040');
+            document.documentElement.style.setProperty('--ui-text-subdued', '#606060');
             document.documentElement.style.setProperty('--ui-text-light', '#181818e6');
-            document.documentElement.style.setProperty('--sidebar-text-subdued', '#404040');
-            document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
             document.documentElement.style.setProperty('--background-elevated-press', '#fff');
             document.documentElement.style.setProperty('--background-elevated-base', '#e9e9e9')
-            document.documentElement.style.setProperty('--text-bright-accent', '#00bd42');
+            // document.documentElement.style.setProperty('--text-bright-accent', '#00bd42');
             document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 10%, 0.1)');
             document.documentElement.style.setProperty('--background-base', '#e9e9e9');
-            if (preferences.sidebar === 'solarized') {
-                document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-                document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+            
+            if (preferences.sidebar === 'neutral') {
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
+                document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+                document.documentElement.style.setProperty('--text-highlight', '#777777');
             }
         } else if (preferences.theme === "dark") {
             document.documentElement.style.setProperty('--background-press', '#000');
@@ -79,42 +85,68 @@ function User() {
             document.documentElement.style.setProperty('--text-light', '#FFFFFFE6');
             document.documentElement.style.setProperty('--ui-text-subdued', '#a7a7a7');
             document.documentElement.style.setProperty('--ui-text-light', '#FFFFFFE6');
-            document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-            document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+            
+            if (preferences.sidebar === 'neutral') {
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
+                document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+                document.documentElement.style.setProperty('--text-highlight', '#fff');
+            }
             document.documentElement.style.setProperty('--background-elevated-press', '#282828');
             document.documentElement.style.setProperty('--background-elevated-base', '#121212');
-            document.documentElement.style.setProperty('--text-bright-accent', '#1ed760');
+            // document.documentElement.style.setProperty('--text-bright-accent', '#1ed760');
             document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 100%, 0.1)');
             document.documentElement.style.setProperty('--background-base', '#121212');
         }
         document.documentElement.style.setProperty('--background-base', color);
-    }, [preferences.theme])
+    }, [preferences.home, preferences.theme])
 
     useEffect(() => {
         if (preferences.sidebar === 'solarized') {
-            document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-            document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
-        }
-        if (preferences.sidebar === 'neutral') {
-            if (preferences.theme === 'dark' || lumaHex(color) < 120) {
+            if(getHours() > 17 || getHours() < 6) {
                 document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
                 document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
             } else {
-
-                document.documentElement.style.setProperty('--sidebar-text-subdued', '#404040');
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
+                document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+            }
+            if(preferences.theme === 'light') {
+                document.documentElement.style.setProperty('--text-highlight', '#777777');
+            } else {
+                document.documentElement.style.setProperty('--text-highlight', '#fff');
+            }
+            
+        }
+        if (preferences.sidebar === 'neutral') {
+            if (preferences.theme === 'dark' ){
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
+                document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+            } else {
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
                 document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
             }
         } else if (preferences.sidebar === 'flat') {
-            if (lumaHex(color) < 120) {
-                document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-                document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+            if(color != preferences.sidebarColor) {
+                if (lumaHex(color) < 120) {
+                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
+                    document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+                } else {
+    
+                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
+                    document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+                }
             } else {
-
-                document.documentElement.style.setProperty('--sidebar-text-subdued', '#404040');
-                document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+                if (lumaHex(preferences.sidebarColor) < 120) {
+                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
+                    document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+                } else {
+    
+                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
+                    document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+                }
             }
+            
         }
-    }, [preferences.sidebar])
+    }, [preferences])
 
     const settingsRef = useClickAway((e) => {
         const clickedNavButton = e.target.classList.contains("settings");
@@ -209,7 +241,7 @@ function User() {
                         <p className="block text-md justify-start font-semibold" role="menuitem">Accent</p>
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Choose your accent color</p>
 
-                        <div className="rounded-md py-4 px-4 mb-5 bg-[--settings-highlight]" onClick={() => setPreferences({ ...preferences, theme: "none" })}>
+                        <div className="rounded-md py-4 px-4 mb-5 bg-[--settings-highlight]" >
                             <SliderPicker
                                 color={color === "#121212" ? "#c2e5b3" : color}
 
@@ -222,18 +254,20 @@ function User() {
                         <p className="block text-md justify-start font-semibold" role="menuitem">Home</p>
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Set your home theme</p>
                         <div className="flex flex-row space-x-1 overflow-x-scroll scrollbar-hide overflow-auto whitespace-nowrap mb-2">
-                            <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "flat" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, home: "flat" })}>
+                            <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "flat" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, homeColor:color, home: "flat" })}>
                                 <div className={`bg-[--background-base] w-[110px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
+                                <div className="w-full h-full rounded-md bg-black bg-opacity-10"></div>
                                 </div>
                                 <p className="text-sm mt-1">Flat</p>
                             </div>
-                            <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "accent" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, home: "accent" })}>
+                            <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "accent" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, homeColor:color, home: "accent" })}>
                                 <div className={`from-[--background-base] to-[--background-press] bg-gradient-to-b w-[110px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
+                                <div className="w-full h-full rounded-md bg-black bg-opacity-10"></div>
                                 </div>
                                 <p className="text-sm mt-1">Accent</p>
                             </div>
                             <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "solarized" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, home: "solarized" })}>
-                                <div className="from-blue-500 to-blue-900 bg-gradient-to-b w-[110px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200">
+                                <div className={`${getGradient()} w-[110px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
                                 </div>
 
                                 <p className="text-sm mt-1">Solarized</p>
@@ -241,6 +275,7 @@ function User() {
 
                             <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "neutral" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, home: "neutral" })}>
                                 <div className="bg-neutral-200 border-[1px] border-neutral-300 w-[110px] h-[80px] rounded-md group-hover:opacity-70 transition ease-in-out duration-200">
+                                <div className="w-full h-full rounded-md bg-black bg-opacity-10"></div>
                                 </div>
                                 <p className="text-sm mt-1">Neutral</p>
                             </div>
@@ -249,13 +284,14 @@ function User() {
                         <p className="block text-md justify-start font-semibold" role="menuitem">Sidebar</p>
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Set your sidebar theme</p>
                         <div className="flex flex-row space-x-1 overflow-x-scroll scrollbar-hide overflow-auto whitespace-nowrap">
-                            <div className={`cursor-pointer group rounded-md p-2 ${preferences.sidebar === "flat" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, sidebar: "flat" })}>
+                            <div className={`cursor-pointer group rounded-md p-2 ${preferences.sidebar === "flat" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, sidebarColor: color, sidebar: "flat" })}>
                                 <div className={`bg-[--background-base] w-[50px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
+                                
                                 </div>
                                 <p className="text-sm mt-1">Flat</p>
                             </div>
                             <div className={`cursor-pointer group rounded-md p-2 ${preferences.sidebar === "solarized" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, sidebar: "solarized" })}>
-                                <div className="from-blue-500 to-blue-900 bg-gradient-to-b w-[50px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200">
+                            <div className={`${getGradient()} w-[50px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
                                 </div>
 
                                 <p className="text-sm mt-1">Solarized</p>

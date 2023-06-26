@@ -27,12 +27,14 @@
 
     --settings-highlight: hsla(0, 0%, 60%, 0.197);
 
-    --text-base: #fff;
-    --text-subdued: #606060;
+    
     --text-super-subdued: #404040;
     --text-light: #FFFFFFE6;
     --text-highlight: #fff;
 
+    --text-base: #fff;
+    --text-subdued: #606060;
+    
     --ui-text-subdued: #a7a7a7;
     --ui-text-light: #FFFFFFE6;
 

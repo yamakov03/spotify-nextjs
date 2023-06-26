@@ -6,8 +6,11 @@ import PlayBtn from '../playBtn';
 function ArtistCard({ title, image, artistId }) {
   const [playing, setPlaying] = useRecoilState(playingState);
   return (
-    <div className='bg-neutral-800 cursor-pointer bg-opacity-50 rounded-md p-3 group me-2 lg:me-4 inline-block hover:bg-neutral-800 hover:bg-opacity-80 transition duration-200 ease-in-out w-[180px] '>
-      <img src={image} className='rounded-md shadow-lg'></img>
+    <div className='bg-neutral-800 cursor-pointer overflow-hidden bg-opacity-50 rounded-md p-3 group me-2 lg:me-4 inline-block hover:bg-neutral-800 hover:bg-opacity-80 transition duration-200 ease-in-out w-[240px]'>
+      <div className='w-[215px] h-[215px]  relative rounded-md'>
+        <img src={image} className='rounded-md shadow-lg absolute'></img>
+      </div>
+      
       <p className='pt-3 lg:text-lg text-md font-bold text-left truncate '>{title}</p>
       
       <div
