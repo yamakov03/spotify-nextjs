@@ -72,9 +72,10 @@ function LikedSongs() {
 
   return (
     <div
+    onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
       className={
-        "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-0% to-100%  rounded-md scrollbar-hide" +
+        "h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide from-[--background-base] bg-gradient-to-b to-[--background-press] transition duration-300" +
         (isLoading ? " hidden " : "")
       }
     >
@@ -95,20 +96,6 @@ function LikedSongs() {
           <div className="text-neutral-200 text-md mt-2">
           </div>
           <div className="flex mt-2">
-            {likedSongs?.total > 200 ?
-              <>
-                <a className="text-md font-semibold me-2" href="">
-                  {session?.user.name}&nbsp;&nbsp;•
-                </a>
-                <p className="text-md">
-                  {likedSongs?.total}&nbsp;songs&nbsp;
-                </p>
-                <p className="text-md text-[--text-subdued]">
-                  (200 shown),
-                  about {(likedSongs?.total * 3) / 60} hr
-                </p>
-              </>
-              :
               <>
                 <a className="text-md font-semibold me-2" href="">
                   {session?.user.name}&nbsp;&nbsp;•
@@ -119,13 +106,13 @@ function LikedSongs() {
                 <p className="text-md text-[--text-subdued]">
                   about {(likedSongs?.total * 3) / 60} hr
                 </p>
-              </>}
+              </>
           </div>
         </div>
       </section>
 
       {/* songs */}
-      <section className="bg-neutral-900 bg-opacity-70" onLoad={() => { scrollTop(), setIsLoading(false) }}>
+      <section className="bg-neutral-900 bg-opacity-70">
         {/* playlist functions */}
         <div className="flex items-center py-7">
           <div
@@ -171,7 +158,7 @@ function LikedSongs() {
             </div>
           </div>
           <div className=" text-neutral-400 mt-2 px-8">
-            <hr className="border-t-[0.1px] border-neutral-700 mb-2" />
+            <hr className="border-neutral-500 opacity-60  mb-2" />
           </div>
 
         </div>

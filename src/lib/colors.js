@@ -22,3 +22,14 @@ export function shadeColor(color, percent) {
 
     return "#"+RR+GG+BB;
 }
+
+export function lumaRGB(R, G, B) {
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+}
+
+export function lumaHex(color) {
+    var R = parseInt(color.substring(1,3),16);
+    var G = parseInt(color.substring(3,5),16);
+    var B = parseInt(color.substring(5,7),16);
+    return lumaRGB(R, G, B);
+}

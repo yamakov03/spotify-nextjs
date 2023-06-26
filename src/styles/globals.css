@@ -9,20 +9,37 @@
 @layer base {
   :root {
     --background-base: #121212;
-    --background-highlight: #1a1a1a;
-    --background-press: #000;
+    --background-highlight: #121212;
+    --background-press: #000000;
+
     --background-elevated-base: #282828;
     --background-elevated-highlight: #2a2a2a;
-    --background-elevated-press: #000;
-    --background-tinted-base: hsla(0, 0%, 100%, 0.07);
+    --background-elevated-press: #282828;
+
+    --background-tinted-base: hsla(0, 0%, 72%, 0.214);
     --background-tinted-highlight: hsla(0, 0%, 100%, 0.1);
     --background-tinted-press: hsla(0, 0%, 100%, 0.04);
+
+    --background-tinted-constant: hsla(0, 0%, 62%, 0.207);
     --background-unsafe-for-small-text-base: #121212;
     --background-unsafe-for-small-text-highlight: #121212;
     --background-unsafe-for-small-text-press: #121212;
+
+    --settings-highlight: hsla(0, 0%, 60%, 0.197);
+
     --text-base: #fff;
-    --text-subdued: #a7a7a7;
+    --text-subdued: #606060;
+    --text-super-subdued: #404040;
     --text-light: #FFFFFFE6;
+    --text-highlight: #fff;
+
+    --ui-text-subdued: #a7a7a7;
+    --ui-text-light: #FFFFFFE6;
+
+    --sidebar-text-subdued: #a7a7a7;
+    --sidebar-text-light: #FFFFFFE6;
+
+
     --text-bright-accent: #1ed760;
     --text-negative: #f15e6c;
     --text-warning: #ffa42b;
@@ -52,9 +69,12 @@
 }
 
 @layer components {
-  .btn,
+  .button svg, .rswp__active svg,
   .rswp__toggle._ControlsButtonRSWP:hover {
-    @apply cursor-pointer hover:scale-[1.1] transition transform duration-100 ease-out;
+    @apply hover:scale-[1.1] transition transform duration-100 ease-in-out hover:text-[--text-light] !important;
+  }
+  .btn:hover{
+    @apply cursor-pointer hover:scale-[1.1] transition transform duration-100 ease-in-out;
   }
   /* a img {
     @apply rounded-md
@@ -62,6 +82,10 @@
 }
 
 /* -------------------------------------- animated bars -------------------------------------- */
+iframe
+{
+    display: none;
+}
 
 .soundwave-container {
   height: 16px;
@@ -482,3 +506,5 @@ background: linear-gradient(to bottom,  #040b3c 0%,#012459 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#040b3c', endColorstr='#012459',GradientType=0 );
 
 }
+/* -------------------------------------- divider -------------------------------------- */
+

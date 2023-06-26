@@ -4,7 +4,8 @@ import { RecoilRoot } from 'recoil';
 import 'tailwindcss/tailwind.css'
 import { Figtree } from 'next/font/google'
 import MainLayout from '../layouts/mainLayout';
-import { isLoadingState } from '../atoms/isLoadingAtom';
+import { CookiesProvider } from 'react-cookie';
+
 const figtree = Figtree({
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
@@ -35,23 +36,25 @@ export default function App({
   return (
 
     <SessionProvider session={session}>
-      <RecoilRoot>
+      <CookiesProvider>
+        <RecoilRoot>
 
-        {router.route.includes('/login') ?
-          <main className={figtree.className}>
-            <Component {...pageProps} />
-          </main>
-          :
-          <main className={`${figtree.className}`}>
-            <MainLayout>
-              <div className='flex-grow min-w-0 ms-2 me-2 pt-2 scrollbar-hide'>
+          {router.route.includes('/login') ?
+            <main className={figtree.className}>
               <Component {...pageProps} />
-              </div>
-              
-            </MainLayout>
-          </main>
-        }
-      </RecoilRoot>
+            </main>
+            :
+            <main className={`${figtree.className}`}>
+              <MainLayout>
+                <div className='flex-grow ps-2 pe-2 pt-2 scrollbar-hide bg-[--background-press] min-w-[27rem] '>
+                  <Component {...pageProps} />
+                </div>
+
+              </MainLayout>
+            </main>
+          }
+        </RecoilRoot>
+      </CookiesProvider>
     </SessionProvider>
 
 

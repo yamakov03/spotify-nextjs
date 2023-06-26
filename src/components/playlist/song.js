@@ -24,7 +24,7 @@ function Song({ order, track, playlistId }) {
 
 
     return (
-        <div className={`grid-container grid grid-cols-2 text-neutral-400 my-2 px-5 hover:bg-neutral-700 song
+        <div className={`grid-container grid grid-cols-2 text-neutral-400 my-2 px-5 hover:bg-[--background-tinted-highlight] song
         rounded-lg cursor-pointer `} onClick={() => handlePlayPause()} >
             <div className='flex items-center py-1'>
                 <div className={`text-end w-[20px] flex-shrink-0 me-6 hover-hidden ${track.track.id === playing.trackId ? 'text-[--text-bright-accent]' : null}`} >
@@ -39,7 +39,7 @@ function Song({ order, track, playlistId }) {
 
                 <img
                     className='h-10 w-10 me-6'
-                    src={track.track.album.images[0].url}
+                    src={track?.track?.album?.images[0]?.url}
                     alt="" />
                 <div className=''>
                     <p className={`w-[180px] xl:w-[300px]  truncate ${track.track.id === playing.trackId ? 'text-[--text-bright-accent]' : 'text-white'}`}>{track.track.name}</p>

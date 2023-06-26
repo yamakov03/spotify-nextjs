@@ -19,7 +19,7 @@ import ColorThief from "colorthief";
 import { isLoadingState } from "../../atoms/isLoadingAtom";
 import { currentViewState } from "../../atoms/viewAtom";
 import { playingState } from "../../atoms/playingAtom";
-import { shadeColor } from "../../lib/colors";
+import { lumaRGB, lumaValue, shadeColor } from "../../lib/colors";
 
 const appVariants = {
   initial: {
@@ -65,8 +65,8 @@ function Playlist() {
       var palette = colorThief.getPalette(sourceImage, 2);
       var hex = [rgbToHex(palette[0][0], palette[0][1], palette[0][2]), rgbToHex(palette[1][0], palette[1][1], palette[1][2])]
 
-      var luma1 = (0.2126 * palette[0][0] + 0.7152 * palette[0][1] + 0.0722 * palette[0][2])
-      var luma2 = (0.2126 * palette[1][0] + 0.7152 * palette[1][1] + 0.0722 * palette[1][2])
+      var luma1 = lumaRGB(palette[0][0], palette[0][1], palette[0][2])
+      var luma2 = lumaRGB(palette[1][0], palette[1][1], palette[1][2])
 
       if (luma1 > luma2) {
         if (luma1 > 0.8) {
@@ -116,8 +116,9 @@ function Playlist() {
 
   return (
     <div
+    onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
-      className={
+      className={ 
         "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-0% to-100%  rounded-md scrollbar-hide" +
         (isLoading ? " hidden" : "")
       }
@@ -167,7 +168,7 @@ function Playlist() {
                 <p className="text-md">
                   {playlist?.tracks?.total}&nbsp;songs&nbsp;
                 </p>
-                <p className="text-md text-[--text-subdued]">
+                <p className="text-md text-neutral-500">
                   (200 shown),
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
@@ -180,7 +181,7 @@ function Playlist() {
                 <p className="text-md">
                   {playlist?.tracks?.total}&nbsp;songs,&nbsp;
                 </p>
-                <p className="text-md text-[--text-subdued]">
+                <p className="text-md text-neutral-500">
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
               </>}
@@ -189,7 +190,7 @@ function Playlist() {
       </section>
 
       {/* songs */}
-      <section className="bg-neutral-900 bg-opacity-70" onLoad={() => { scrollTop(), setIsLoading(false) }}>
+      <section className="bg-neutral-900 bg-opacity-60">
         {/* playlist functions */}
         <div className="flex items-center py-7">
           <div
@@ -199,20 +200,18 @@ function Playlist() {
             }
             }
           >
-            <svg
-              className="btn cursor-pointer bg-black shadow-xl shadow-black/10 rounded-full "
-              height="3.5em"
-              preserveAspectRatio="xMidYMid"
-              viewBox="0 0 64 64"
-              width="3.5em"
-            >
-              <path
-                d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm-7.61 18.188c-.435.251-.702.715-.701 1.216v25.194a1.402 1.402 0 0 0 2.104 1.214L47.61 33.214a1.402 1.402 0 0 0 0-2.428L25.793 18.188c-.435-.25-.97-.25-1.404 0Z"
-                fill="currentColor"
-              ></path>
-            </svg>
+            <button className="box-border rounded-full cursor-pointer text-center bg-black shadow-xl shadow-black/10 btn transition-all ease-in-out duration-200">
+            <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
+                <span aria-hidden="true">
+                    <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">
+                        <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+                        </path>
+                    </svg>
+                </span>
+            </span>
+        </button>
           </div>
-          <div className="btn text-[--text-subdued] flex flex-col space-y-1 cursor-pointer">
+          <div className="hover:text-white text-neutral-400 flex flex-col space-y-1 cursor-pointer">
             <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="Svg-sc-ytk21e-0 haNxPq"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm15 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" fill="currentColor"></path></svg>
           </div>
         </div>
@@ -235,7 +234,7 @@ function Playlist() {
             </div>
           </div>
           <div className=" text-neutral-400 mt-2 px-8">
-            <hr className="border-t-[0.1px] border-neutral-700 mb-2" />
+            <hr className="border-neutral-500 opacity-60 mb-2" />
           </div>
 
         </div>
