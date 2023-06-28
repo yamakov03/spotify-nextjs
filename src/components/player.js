@@ -104,7 +104,14 @@ function Player() {
         }}
 
         token={user.getAccessToken()}
-        uris={playing.typePlaying === 'track' ? [`spotify:track:${playing?.trackId}`] : playing.typePlaying === 'artist' ? [`spotify:artist:${playing?.artistId}`] : [`spotify:playlist:${playing?.playlistId}`]}
+        uris={
+        playing.typePlaying === 'track' ? [`spotify:track:${playing?.trackId}`] : 
+        playing.typePlaying === 'artist' ? [`spotify:artist:${playing?.artistId}`] : 
+        playing.typePlaying === 'playlist' ? [`spotify:playlist:${playing?.playlistId}`] :
+        playing.typePlaying === 'album' ? [`spotify:album:${playing?.albumId}`] :
+        playing.typePlaying === 'show' ? [`spotify:show:${playing?.trackId}`] :
+        playing.typePlaying === 'episode' ? [`spotify:episode:${playing?.trackId}`] : null
+        }
         hideAttribution={true}
         persistDeviceSelection={true}
         showSaveIcon={true}

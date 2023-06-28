@@ -30,22 +30,6 @@ function User() {
 
     useEffect(() => {
         if (color) {
-            // if (lumaHex(color) > 120) {
-            //     if (preferences.sidebar === 'flat') {
-            //         document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
-            //         document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
-            //     }
-            //     document.documentElement.style.setProperty('--text-bright-accent', '#00bd42');
-            //     document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 10%, 0.1)');
-
-            // } else {
-            //     if (preferences.sidebar === 'flat') {
-            //         document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-            //         document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
-            //     }
-            //     document.documentElement.style.setProperty('--text-bright-accent', '#1ed760');
-            //     document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 100%, 0.1)');
-            // }
             document.documentElement.style.setProperty('--background-base', color);
         }
     }, [color])
@@ -71,7 +55,7 @@ function User() {
             document.documentElement.style.setProperty('--background-elevated-press', '#fff');
             document.documentElement.style.setProperty('--background-elevated-base', '#e9e9e9')
             // document.documentElement.style.setProperty('--text-bright-accent', '#00bd42');
-            document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 10%, 0.1)');
+            
             document.documentElement.style.setProperty('--background-base', '#e9e9e9');
             
             if (preferences.sidebar === 'neutral') {
@@ -94,7 +78,6 @@ function User() {
             document.documentElement.style.setProperty('--background-elevated-press', '#282828');
             document.documentElement.style.setProperty('--background-elevated-base', '#121212');
             // document.documentElement.style.setProperty('--text-bright-accent', '#1ed760');
-            document.documentElement.style.setProperty('--background-tinted-highlight', 'hsla(0, 0%, 100%, 0.1)');
             document.documentElement.style.setProperty('--background-base', '#121212');
         }
         document.documentElement.style.setProperty('--background-base', color);
@@ -146,7 +129,7 @@ function User() {
             }
             
         }
-    }, [preferences])
+    }, [preferences.sidebar, preferences.sidebarColor])
 
     const settingsRef = useClickAway((e) => {
         const clickedNavButton = e.target.classList.contains("settings");
@@ -173,7 +156,7 @@ function User() {
     };
 
     return (
-        <header className="fixed top-5 right-5 flex z-50" >
+        <header className="fixed top-5 right-7 flex z-50" >
             <div onClick={handleOpenDropdown}
                 className="dropdown flex items-center bg-neutral-700 space-x-2 text-white opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2"
                 type="button"
@@ -285,8 +268,7 @@ function User() {
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Set your sidebar theme</p>
                         <div className="flex flex-row space-x-1 overflow-x-scroll scrollbar-hide overflow-auto whitespace-nowrap">
                             <div className={`cursor-pointer group rounded-md p-2 ${preferences.sidebar === "flat" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, sidebarColor: color, sidebar: "flat" })}>
-                                <div className={`bg-[--background-base] w-[50px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
-                                
+                                <div className={`bg-[--background-base] w-[50px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}> 
                                 </div>
                                 <p className="text-sm mt-1">Flat</p>
                             </div>

@@ -17,6 +17,9 @@ import { isLoadingState } from "../../atoms/isLoadingAtom";
 import { playingState } from "../../atoms/playingAtom";
 import { HeartIcon } from "@heroicons/react/solid";
 import { likedSongsState } from "../../atoms/playlistAtom";
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
+
 const appVariants = {
   initial: {
     opacity: 0,
@@ -71,11 +74,11 @@ function LikedSongs() {
   }
 
   return (
-    <div
+    <PerfectScrollbar
     onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
       className={
-        "h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide from-[--background-base] bg-gradient-to-b to-[--background-press] transition duration-300" +
+        "h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide from-[--background-base] bg-gradient-to-b to-[--background-press] transition duration-200" +
         (isLoading ? " hidden " : "")
       }
     >
@@ -166,7 +169,7 @@ function LikedSongs() {
 
         <Songs />
       </section>
-    </div>
+    </PerfectScrollbar>
   );
 }
 

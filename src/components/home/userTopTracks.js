@@ -20,7 +20,7 @@ function UserTopTracks() {
   }, [spotifyApi]);
   return (
     <div className='text-white'>
-      <h1 className=" text-2xl font-bold mx-6 mb-4 ">Your top tracks on repeat</h1>
+      <h1 className=" text-2xl font-semibold">Your top tracks</h1>
     </div>
   )
 }

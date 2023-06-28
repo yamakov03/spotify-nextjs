@@ -2,16 +2,18 @@ import React from 'react'
 import { playingState } from '../../atoms/playingAtom'
 import { useRecoilState } from 'recoil';
 import PlayBtn from '../playBtn';
+import Skeleton from 'react-loading-skeleton';
 
 function ArtistCard({ title, image, artistId }) {
   const [playing, setPlaying] = useRecoilState(playingState);
   return (
-    <div className='bg-neutral-800 cursor-pointer overflow-hidden bg-opacity-50 rounded-md p-3 group me-2 lg:me-4 inline-block hover:bg-neutral-800 hover:bg-opacity-80 transition duration-200 ease-in-out w-[240px]'>
-      <div className='w-[215px] h-[215px]  relative rounded-md'>
-        <img src={image} className='rounded-md shadow-lg absolute'></img>
+    <>
+    {<div className='bg-[--background-tinted-base] cursor-pointer overflow-hidden rounded-md p-3 group me-4 inline-block hover:bg-[--background-tinted-highlight] transition duration-200 ease-in-out w-[205px]'>
+      <div className='w-[180px] h-[180px] relative rounded-md'>
+        <img src={image} className='w-[180px] h-[180px] rounded-md shadow-lg absolute'></img>
       </div>
       
-      <p className='pt-3 lg:text-lg text-md font-bold text-left truncate '>{title}</p>
+      <p className='pt-2 text-md text-md font-semibold text-left truncate '>{title}</p>
       
       <div
         className="text-[--text-bright-accent] px-8 flex flex-col space-y-1 relative"
@@ -31,7 +33,8 @@ function ArtistCard({ title, image, artistId }) {
             </span>
         </button>
       </div>
-    </div>
+    </div> || <Skeleton />}
+    </>
 
   )
 }

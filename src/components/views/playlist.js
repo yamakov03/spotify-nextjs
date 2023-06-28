@@ -20,6 +20,7 @@ import { isLoadingState } from "../../atoms/isLoadingAtom";
 import { currentViewState } from "../../atoms/viewAtom";
 import { playingState } from "../../atoms/playingAtom";
 import { lumaRGB, lumaValue, shadeColor } from "../../lib/colors";
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const appVariants = {
   initial: {
@@ -102,10 +103,7 @@ function Playlist() {
       }
 
       setPlaylist(pl);
-    })
-
-      ();
-
+    })();
 
   }, [spotifyApi, playlistId]);
 
@@ -115,7 +113,7 @@ function Playlist() {
   }
 
   return (
-    <div
+    <PerfectScrollbar
     onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
       className={ 
@@ -242,7 +240,7 @@ function Playlist() {
 
         <Songs />
       </section>
-    </div>
+    </PerfectScrollbar>
   );
 }
 
