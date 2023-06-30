@@ -2,7 +2,7 @@ import React from 'react'
 
 function PlayBtn() {
     return (
-        <button className="box-border rounded-full cursor-pointer text-center relative bg-black shadow-xl shadow-black/10">
+        <button className="box-border rounded-full cursor-pointer text-center relative shadow-xl shadow-black/10">
             <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
                 <span aria-hidden="true">
                     <svg role="img" height="28" width="28" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">

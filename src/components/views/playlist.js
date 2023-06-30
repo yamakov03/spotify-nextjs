@@ -61,7 +61,6 @@ function Playlist() {
     var sourceImage = document.getElementById("myImg");
     sourceImage.onload = function () {
       var colorThief = new ColorThief();
-      var rgb = colorThief.getColor(sourceImage);
 
       var palette = colorThief.getPalette(sourceImage, 2);
       var hex = [rgbToHex(palette[0][0], palette[0][1], palette[0][2]), rgbToHex(palette[1][0], palette[1][1], palette[1][2])]
@@ -105,7 +104,7 @@ function Playlist() {
       setPlaylist(pl);
     })();
 
-  }, [spotifyApi, playlistId]);
+  }, [playlistId]);
 
   const scrollTop = () => {
     var div = document.getElementById("mainContent");
@@ -114,10 +113,10 @@ function Playlist() {
 
   return (
     <PerfectScrollbar
-    onLoad={() => { scrollTop(), setIsLoading(false) }}
+      onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
-      className={ 
-        "h-[calc(100vh-5.5rem)] overflow-y-scroll bg-gradient-to-b  from-0% to-100%  rounded-md scrollbar-hide" +
+      className={
+        "h-[calc(100vh-5.5rem)] @container overflow-y-scroll bg-gradient-to-b  from-0% to-40%  rounded-md " +
         (isLoading ? " hidden" : "")
       }
       style={Object.assign(
@@ -139,10 +138,10 @@ function Playlist() {
 
       {/* header */}
       <section
-        className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
+        className={`flex items-end space-x-0 space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
       >
         <img
-          className="h-56 w-56 hidden lg:inline shadow-2xl rounded-xl"
+          className="h-56 w-56 hidden @2xl:flex shadow-2xl rounded-xl"
           src={playlist?.images?.[0].url}
           alt=""
           id="myImg"
@@ -166,7 +165,7 @@ function Playlist() {
                 <p className="text-md">
                   {playlist?.tracks?.total}&nbsp;songs&nbsp;
                 </p>
-                <p className="text-md text-neutral-500">
+                <p className="text-md text-neutral-800 text-opacity-60">
                   (200 shown),
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
@@ -179,7 +178,7 @@ function Playlist() {
                 <p className="text-md">
                   {playlist?.tracks?.total}&nbsp;songs,&nbsp;
                 </p>
-                <p className="text-md text-neutral-500">
+                <p className="text-md text-neutral-800 text-opacity-60">
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
               </>}
@@ -198,16 +197,16 @@ function Playlist() {
             }
             }
           >
-            <button className="box-border rounded-full cursor-pointer text-center bg-black shadow-xl shadow-black/10 btn transition-all ease-in-out duration-200">
-            <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
+            <button className="box-border rounded-full cursor-pointer text-center shadow-xl shadow-black/10 btn transition-all ease-in-out duration-200">
+              <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
                 <span aria-hidden="true">
-                    <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">
-                        <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
-                        </path>
-                    </svg>
+                  <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">
+                    <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+                    </path>
+                  </svg>
                 </span>
-            </span>
-        </button>
+              </span>
+            </button>
           </div>
           <div className="hover:text-white text-neutral-400 flex flex-col space-y-1 cursor-pointer">
             <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="Svg-sc-ytk21e-0 haNxPq"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm15 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" fill="currentColor"></path></svg>
@@ -216,22 +215,20 @@ function Playlist() {
 
         {/* songs header */}
         <div className="">
-          <div className="grid grid-cols-2 text-neutral-400  ps-4 pe-8 ">
-            <div className="grid grid-cols-2 text-neutral-400 px-5" >
-              <div className="flex items-center space-x-4 ">
-                <p className="text-end w-[20px] me-1">#</p>
+          <div className="grid grid-cols-2 text-neutral-400  ps-2 pe-6 ">
+              <div className="px-5 flex items-center">
+                <p className="text-end w-[20px] ms-1 me-5">#</p>
                 <p>Title</p>
                 <div></div>
               </div>
-            </div>
             <div className='flex items-center justify-end  ml-auto md:ml-0'>
-              <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>Album</p>
+              <p className='w-[90%] xl:w-[50%] hidden ps-2 lg:inline truncate'>Album</p>
 
               <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
               <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
             </div>
           </div>
-          <div className=" text-neutral-400 mt-2 px-8">
+          <div className=" text-neutral-400 mt-2 px-5">
             <hr className="border-neutral-500 opacity-60 mb-2" />
           </div>
 

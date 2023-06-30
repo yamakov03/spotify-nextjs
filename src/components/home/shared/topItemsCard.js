@@ -1,9 +1,13 @@
 import React from 'react'
-import { playingState } from '../../atoms/playingAtom';
+import { playingState } from '../../../atoms/playingAtom';
 import { useRecoilState } from 'recoil';
+import { likedSongsState } from "../../../atoms/playlistAtom";
+
+
 
 function TopItemsCard({ title, image, playlistId }) {
   const [playing, setPlaying] = useRecoilState(playingState);
+  const [likedSongs, setLikedSongs] = useRecoilState(likedSongsState);
   return (
     <div className='flex items-center me-4 mb-3 group cursor-pointer truncate'>
       <img src={image} alt="img" className="h-[4rem] w-[4rem] rounded-s-[5px] cursor-pointer" />
@@ -16,10 +20,12 @@ function TopItemsCard({ title, image, playlistId }) {
         <div id='playlists' className="absolute top-[20px] end-[90px]">
           <button id="playBtn"
             onClick={() => {
-              setPlaying({ ...playing, typePlaying: "playlist", playlistId: playlistId, isPlaying: true })
+              setPlaying(playlistId === 'liked' ? 
+              { ...playing, typePlaying: "track", trackOrder: 0, playlistId: "liked", trackId: likedSongs?.items[0]?.track?.id, isPlaying: true } :
+              { ...playing, typePlaying: "playlist", playlistId: playlistId, isPlaying: true } )
             }
             }
-            className="box-border rounded-full cursor-pointer text-center bg-black shadow-xl shadow-black/10 absolute bottom-[-8px] left-[22px] btn transition-all ease-in-out duration-200 opacity-0 group-hover:opacity-100">
+            className="box-border rounded-full cursor-pointer text-center shadow-sm shadow-black/20 absolute bottom-[-8px] left-[22px] btn transition-all ease-in-out duration-200 opacity-0 group-hover:opacity-100">
             <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
                 <span aria-hidden="true">
                     <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">

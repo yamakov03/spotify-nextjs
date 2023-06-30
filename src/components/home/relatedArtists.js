@@ -5,19 +5,22 @@ import ScrollContainer from 'react-indiana-drag-scroll'
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ArrowLeftIcon, ArrowNarrowRightIcon, ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/solid';
 
-function UserTopArtists() {
+function RelatedArtists() {
   const spotifyApi = useSpotify();
   const [artists, setArtists] = useState(null);
+  const [name, setName] = useState(null);
 
   useEffect(() => {
-    (async () => {
-      const topArtists = (await spotifyApi.getMyTopArtists({
-        limit: 50
-      })).body;
-
-      setArtists(topArtists);
-    })();
-  }, []);
+    spotifyApi.getMyTopArtists({
+        limit: 1
+      }).then((response) => {
+        setName(response['body'].items[0].name)
+        fetch(`https://api.spotify.com/v1/artists/${response['body'].items[0].id}/related-artists`, {
+        method: "GET",
+        headers: {"Authorization": `Bearer ${spotifyApi.getAccessToken()}`}
+        }).then(res => res.json()).then(json => setArtists(json['artists']));
+      })
+    }, []);
 
 
 
@@ -47,10 +50,10 @@ function UserTopArtists() {
 
   return (
     <div className='text-[--home-text-light]'>
-      <h1 className=" text-2xl font-semibold mb-4">Artists you're listening to</h1>
+      <h1 className=" text-2xl font-semibold mb-4">Artists like {name}</h1>
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {artists?.items.map((artist, i) => {
+        {artists?.map((artist, i) => {
           return (typeof artist != 'undefined' && artist) ? <ArtistCard key={i} title={artist.name} image={artist?.images[0].url} artistId={artist.id} /> : null
         }
         )}
@@ -60,4 +63,4 @@ function UserTopArtists() {
   )
 }
 
-export default UserTopArtists
+export default RelatedArtists

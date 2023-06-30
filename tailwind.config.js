@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: [
     require('tailwind-scrollbar-hide'),
-  ]
-    
+    require('@tailwindcss/container-queries'),
+    require('@tailwindcss/line-clamp'),
+  ],  
 }

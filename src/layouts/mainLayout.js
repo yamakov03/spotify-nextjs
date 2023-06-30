@@ -7,20 +7,17 @@ import Sidebar from '../components/sidebar';
 
 const MainLayout = (props) => {
     return (
-        <main className="bg-[--background-press] h-screen scrollbar-hide ">
-
+        <main className="bg-[--background-press] scrollbar-hide ">
+            
             <User />
-            <div className='flex'>
-                {/* Sidebar */}
-                <Sidebar />
-                {/* Center */}
-                <div className="divider" />
-                {props.children}
+            {/* Sidebar */}
+            <Sidebar />
+            {/* Center */}
+            <div id="main" className='p-2 bg-[--background-press]'>
+                  {props.children}
             </div>
-            <div className="bottom-0 fixed left-0 w-full">
-                {/* Player */}
-                <Player />
-            </div>
+            {/* Player */}
+            <Player />
         </main>
     )
 }

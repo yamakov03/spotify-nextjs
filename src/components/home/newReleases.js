@@ -4,20 +4,26 @@ import ArtistCard from './shared/artistCard';
 import ScrollContainer from 'react-indiana-drag-scroll'
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ArrowLeftIcon, ArrowNarrowRightIcon, ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import AlbumCard from './shared/albumCard';
 
-function UserTopArtists() {
+function NewReleases() {
   const spotifyApi = useSpotify();
-  const [artists, setArtists] = useState(null);
+  const [newReleases, setNewReleases] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const topArtists = (await spotifyApi.getMyTopArtists({
-        limit: 50
+      const releases = (await spotifyApi.getNewReleases({
+        country: 'ES',
+        limit: 10
       })).body;
 
-      setArtists(topArtists);
-    })();
-  }, []);
+      setNewReleases(releases);
+    })
+
+      ();
+
+
+  }, [spotifyApi]);
 
 
 
@@ -47,11 +53,11 @@ function UserTopArtists() {
 
   return (
     <div className='text-[--home-text-light]'>
-      <h1 className=" text-2xl font-semibold mb-4">Artists you're listening to</h1>
+      <h1 className=" text-2xl font-semibold mb-4">Latino Releases</h1>
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {artists?.items.map((artist, i) => {
-          return (typeof artist != 'undefined' && artist) ? <ArtistCard key={i} title={artist.name} image={artist?.images[0].url} artistId={artist.id} /> : null
+        {newReleases?.albums.items.map((album, i) => {
+          return (typeof album != 'undefined' && album) ? <AlbumCard key={i} title={album.name} image={album?.images[0].url} albumId={album.id} releaseDate={album.release_date} /> : null
         }
         )}
 
@@ -60,4 +66,4 @@ function UserTopArtists() {
   )
 }
 
-export default UserTopArtists
+export default NewReleases

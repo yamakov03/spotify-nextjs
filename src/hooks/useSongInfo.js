@@ -23,7 +23,7 @@ function useSongInfo() {
         };
 
         fetchSongInfo();
-    }, [currentTrackId, spotifyApi]);
+    }, [currentTrackId]);
 
     return songInfo;
 }

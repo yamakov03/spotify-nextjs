@@ -66,7 +66,7 @@ function LikedSongs() {
     })();
 
 
-  }, [spotifyApi, likedSongs]);
+  }, [likedSongs]);
 
   const scrollTop = () => {
     var div = document.getElementById("mainContent");
@@ -87,7 +87,7 @@ function LikedSongs() {
       <section
         className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
       >
-        <div className="items-center justify-center align-middle h-56 w-56 hidden lg:flex shadow-2xl rounded-xl bg-gradient-to-b from-amber-400 to-fuchsia-600">
+        <div className="items-center justify-center align-middle h-56 w-56 hidden xl:flex shadow-2xl rounded-xl bg-gradient-to-b from-amber-400 to-fuchsia-600">
           <HeartIcon className="h-16 w-16 text-white"/>
         </div>
         <div>
@@ -106,7 +106,7 @@ function LikedSongs() {
                 <p className="text-md">
                   {likedSongs?.total}&nbsp;songs,&nbsp;
                 </p>
-                <p className="text-md text-[--text-subdued]">
+                <p className="text-md text-neutral-800 text-opacity-60">
                   about {(likedSongs?.total * 3) / 60} hr
                 </p>
               </>
@@ -145,23 +145,21 @@ function LikedSongs() {
 
         {/* songs header */}
         <div className="">
-          <div className="grid grid-cols-2 text-neutral-400  ps-4 pe-8 ">
-            <div className="grid grid-cols-2 text-neutral-400 px-5" >
-              <div className="flex items-center space-x-4 ">
-                <p className="text-end w-[20px] me-1">#</p>
+          <div className="grid grid-cols-2 text-neutral-400  ps-2 pe-6 ">
+              <div className="px-5 flex items-center">
+                <p className="text-end w-[20px] ms-1 me-5">#</p>
                 <p>Title</p>
                 <div></div>
               </div>
-            </div>
             <div className='flex items-center justify-end  ml-auto md:ml-0'>
-              <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>Album</p>
+              <p className='w-[90%] xl:w-[50%] hidden ps-2 lg:inline truncate'>Album</p>
 
               <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
               <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
             </div>
           </div>
-          <div className=" text-neutral-400 mt-2 px-8">
-            <hr className="border-neutral-500 opacity-60  mb-2" />
+          <div className=" text-neutral-400 mt-2 px-5">
+            <hr className="border-neutral-500 opacity-60 mb-2" />
           </div>
 
         </div>

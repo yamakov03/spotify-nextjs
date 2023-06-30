@@ -7,7 +7,7 @@
 @import 'tailwindcss/utilities';
 
 @import 'react-perfect-scrollbar/dist/css/styles.css';
-
+@import 'react-horizontal-scrolling-menu/dist/styles.css'; 
 @layer base {
   :root {
     --background-base: #121212;
@@ -18,7 +18,7 @@
     --background-elevated-highlight: #2a2a2a;
     --background-elevated-press: #282828;
 
-    --background-tinted-base: hsla(0, 0%, 35%, 0.216);
+    --background-tinted-base: hsla(0, 0%, 35%, 0.117);
     --background-tinted-highlight: hsla(0, 0%, 53%, 0.216);;
 
     --background-tinted-press: hsla(0, 0%, 61%, 0.227);
@@ -35,8 +35,8 @@
     --text-light: #FFFFFFE6;
     --text-highlight: #fff;
 
-    --text-base: #fff;
-    --text-subdued: #606060;
+    --home-text-base: #fff;
+    --home-text-subdued: #606060;
     
     --ui-text-subdued: #a7a7a7;
     --ui-text-light: #FFFFFFE6;
@@ -59,27 +59,20 @@
     --essential-announcement: #0d72ea;
     --decorative-base: #fff;
     --decorative-subdued: #292929;
+
+    --gradient-color: #282828;
   }
 
-  html,
-  body,
-  #__next {
-    height: 100%;
-    background-color: #000000 !important;
-  }
-
-  body {
-    background-color: #000000 !important;
-  }
 }
 
 @layer components {
   .button svg, .rswp__active svg,
   .rswp__toggle._ControlsButtonRSWP:hover {
-    @apply hover:scale-[1.1] transition transform duration-100 ease-in-out hover:text-[--text-light] !important;
+    @apply cursor-pointer transition duration-200 ease-in-out !important;
+    color: #d9d9d9 !important;
   }
   .btn:hover{
-    @apply cursor-pointer hover:scale-[1.1] transition transform duration-100 ease-in-out;
+    @apply cursor-pointer hover:scale-[1.1] transition transform duration-200 ease-in-out;
   }
   /* a img {
     @apply rounded-md
@@ -214,14 +207,6 @@ iframe
 
 .rswp__active._InfoRSWP {
   border-bottom: none !important;
-}
-
-.rswp__toggle._ControlsButtonRSWP:hover {
-  transform: scale(1.1) perspective(1px);
-}
-
-._ControlsButtonRSWP:hover {
-  color: white;
 }
 
 .resizer {
@@ -511,7 +496,7 @@ background: linear-gradient(to bottom,  #040b3c 0%,#012459 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#040b3c', endColorstr='#012459',GradientType=0 );
 
 }
-/* -------------------------------------- divider -------------------------------------- */
+/* -------------------------------------- scroll -------------------------------------- */
 .scrollbar-container {
   position: relative !important;
   /* height: 100%; */
@@ -523,3 +508,84 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#040b3c', end
 .ps__thumb-y {
   margin: 0 3px 0 0;
 }
+
+.react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.react-horizontal-scrolling-menu--scroll-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* -------------------------------------- img -------------------------------------- */
+
+img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+/* -------------------------------------- divider -------------------------------------- */
+body {
+  --left-width: 280px;
+  padding: 0;
+  margin: 0;
+}
+
+#player {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+#main,
+#sidebar,
+#dragbar {
+  top: 0;
+  position: absolute;
+  height: calc(100vh - 5.5rem);
+}
+
+#sidebar {
+  width: var(--left-width);
+  z-index: 40;
+}
+
+#main {
+  right: 0;
+  width: calc(100% - var(--left-width));
+  z-index: 40;
+}
+
+#dragbar {
+  border-radius: 0 5px 5px 0;
+  margin-top: 0.5rem;
+  right: 0;
+  width: 5px;
+  opacity: 0;
+  cursor: col-resize;
+  background: var(--sidebar-text-subdued);
+  transition: 0s ease-in-out 0s, opacity 0.1s ease-in-out 0s;
+}
+
+#dragbar:hover,
+body.resizing #dragbar {
+  opacity: 1;
+  transition: 0s ease-in-out 0s, opacity 0.1s ease-in-out .1s;
+}
+
+@media screen and (max-width: 767px) {
+  .rswp__active._InfoRSWP.__8lj1y2 {
+    display: none;
+    
+  }
+  
+}
+
+

@@ -35,8 +35,7 @@ function Song({ order, track, playlistId }) {
 
 
     return (
-        <div className={`grid-container grid grid-cols-2 text-neutral-400 my-2 px-5 hover:bg-[--background-tinted-highlight] song
-        rounded-lg cursor-pointer `} onClick={() => handlePlayPause()} >
+        <div className={`@container grid-container grid grid-cols-2 text-neutral-400 my-2 px-2 hover:bg-[--background-tinted-highlight] song rounded-lg cursor-pointer `} onClick={() => handlePlayPause()} >
             <div className='flex items-center py-1'>
                 <div className={`text-end w-[20px] flex-shrink-0 me-6 hover-hidden ${track.track.id === playing.trackId ? 'text-[--text-bright-accent]' : null}`} >
                     {track.track.id === playing.trackId && playing.isPlaying ? <AnimatedBars /> : order + 1}
@@ -66,10 +65,10 @@ function Song({ order, track, playlistId }) {
                 </div>
             </div>
             <div className='flex items-center justify-end  ml-auto md:ml-0'>
-                <p className='w-[90%] xl:w-[50%] hidden lg:inline truncate'>{track.track.album.name}</p>
+                <p className='w-[90%] xl:w-[50%] hidden @lg:inline truncate'>{track.track.album.name}</p>
 
-                <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>{toDateFormat(track.added_at)}</p>
-                <p className='w-20 flex justify-end items-end'>{millisecondsToMinutesAndSeconds(track.track.duration_ms)}</p>
+                <p className='w-[40%] ms-[10%] hidden @xl:inline truncate'>{toDateFormat(track.added_at)}</p>
+                <p className='w-20 flex justify-end items-end pe-4'>{millisecondsToMinutesAndSeconds(track.track.duration_ms)}</p>
             </div>
         </div>
     )

@@ -2,9 +2,9 @@ import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
   return (
-    <Html lang="en" className='scrollbar-hide'>
+    <Html lang="en">
       <Head />
-      <body>
+      <body className='scrollbar-hide bg-[--background-press]'>
         <Main />
         <NextScript />
       </body>

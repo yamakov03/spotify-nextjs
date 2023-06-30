@@ -4,22 +4,20 @@ import ArtistCard from './shared/artistCard';
 import ScrollContainer from 'react-indiana-drag-scroll'
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ArrowLeftIcon, ArrowNarrowRightIcon, ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { useSession } from 'next-auth/react';
+import PlaylistCard from './shared/playlistCard';
 
-function UserTopArtists() {
+function CategoryPlaylists({ category, title}) {
   const spotifyApi = useSpotify();
-  const [artists, setArtists] = useState(null);
+  const { data: session } = useSession();
+  const [playlists, setPlaylists] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      const topArtists = (await spotifyApi.getMyTopArtists({
-        limit: 50
-      })).body;
-
-      setArtists(topArtists);
-    })();
-  }, []);
-
-
+  useEffect(()=>{
+    fetch(`https://api.spotify.com/v1/browse/categories/${category}/playlists`, {
+      method: "GET",
+      headers: {"Authorization": `Bearer ${spotifyApi.getAccessToken()}`}
+    }).then(res => res.json()).then(json => setPlaylists(json['playlists']));
+  },[]);
 
   function LeftArrow() {
     const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext);
@@ -47,11 +45,11 @@ function UserTopArtists() {
 
   return (
     <div className='text-[--home-text-light]'>
-      <h1 className=" text-2xl font-semibold mb-4">Artists you're listening to</h1>
+      <h1 className=" text-2xl font-semibold mb-4">{title}</h1>
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {artists?.items.map((artist, i) => {
-          return (typeof artist != 'undefined' && artist) ? <ArtistCard key={i} title={artist.name} image={artist?.images[0].url} artistId={artist.id} /> : null
+        {playlists?.items.map((playlist, i) => {
+          return (typeof playlist != 'undefined' && playlist) ? <PlaylistCard key={i} title={playlist.name} image={playlist?.images[0].url} playlistId={playlist.id} description={playlist.description} tracks={playlist.tracks.total} owner={playlist.owner.display_name} ownerHref={playlist.owner.href} /> : null
         }
         )}
 
@@ -60,4 +58,4 @@ function UserTopArtists() {
   )
 }
 
-export default UserTopArtists
+export default CategoryPlaylists

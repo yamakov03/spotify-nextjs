@@ -23,7 +23,6 @@ export default function Index() {
   return (
     <>
       <header />
-      
       {view === "home" ? <Home /> : null}
       {view === "playlist" ? <Playlist />: null}
       {view === "search" ?  <Search/>: null}

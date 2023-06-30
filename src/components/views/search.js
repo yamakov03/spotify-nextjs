@@ -1,6 +1,8 @@
 function Search() {
   return (
-    <div className="text-white">Search</div>
+    <div className="flex items-center justify-center h-full bg-[--background-elevated-base] rounded-md text-white">
+        Search
+      </div>
   )
 }
 

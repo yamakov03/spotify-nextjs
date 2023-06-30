@@ -44,9 +44,9 @@ export default function App({
               <Component {...pageProps} />
             </main>
             :
-            <main className={`${figtree.className}`}>
+            <main className={`${figtree.className}  min-w-[769px]`}>
               <MainLayout>
-                <div className='flex-grow ps-2 pe-2 pt-2 scrollbar-hide bg-[--background-press] min-w-[27rem] '>
+                <div className='min-w-[27rem] h-[calc(100vh-5.5rem)]'>
                   <Component {...pageProps} />
                 </div>
 
