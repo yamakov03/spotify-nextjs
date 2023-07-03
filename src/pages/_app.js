@@ -13,21 +13,6 @@ const figtree = Figtree({
   display: 'swap',
 })
 
-const appVariants = {
-  initial: {
-    opacity: 0,
-    x: '5px'
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.2
-    }
-  }
-}
-
-
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -44,12 +29,9 @@ export default function App({
               <Component {...pageProps} />
             </main>
             :
-            <main className={`${figtree.className}  min-w-[769px]`}>
+            <main className={`${figtree.className}`}>
               <MainLayout>
-                <div className='min-w-[27rem] h-[calc(100vh-5.5rem)]'>
                   <Component {...pageProps} />
-                </div>
-
               </MainLayout>
             </main>
           }

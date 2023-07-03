@@ -6,6 +6,12 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    extend: {
+      screens: {
+        'xs': '400px',
+        'player': '767px',
+      },
+    },
   },
   plugins: {
     'postcss-import': {},

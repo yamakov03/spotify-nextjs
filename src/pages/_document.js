@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body className='scrollbar-hide bg-[--background-press]'>
+      <body>
         <Main />
         <NextScript />
       </body>

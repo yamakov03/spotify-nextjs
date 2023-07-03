@@ -1,12 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import {
-  ClockIcon,
-  DotsHorizontalIcon,
-  LinkIcon,
-  ShareIcon,
-  UploadIcon,
+  ClockIcon
 } from "@heroicons/react/outline";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -15,68 +10,23 @@ import useSpotify from "../../hooks/useSpotify";
 const Songs = dynamic(() => import("../playlist/songs"));
 import dynamic from "next/dynamic";
 import ReactHtmlParser from "react-html-parser";
-import ColorThief from "colorthief";
 import { isLoadingState } from "../../atoms/isLoadingAtom";
-import { currentViewState } from "../../atoms/viewAtom";
 import { playingState } from "../../atoms/playingAtom";
-import { lumaRGB, lumaValue, shadeColor } from "../../lib/colors";
+import { getPrimaryColors, lumaRGB, rgbToHex, shadeColor } from "../../lib/colors";
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-const appVariants = {
-  initial: {
-    opacity: 0,
-    x: "5px",
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.2,
-    },
-  },
-};
-
 function Playlist() {
-  const { data: session } = useSession();
   const spotifyApi = useSpotify();
   const [colors, setColors] = useState([]);
-  const [luma, setLuma] = useState(0);
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
   const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
   const [playing, setPlaying] = useRecoilState(playingState);
 
   useEffect(() => {
-    function componentToHex(c) {
-      var hex = c.toString(16);
-      return hex.length == 1 ? "0" + hex : hex;
-    }
-
-    function rgbToHex(r, g, b) {
-      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-
-
-
     var sourceImage = document.getElementById("myImg");
     sourceImage.onload = function () {
-      var colorThief = new ColorThief();
-
-      var palette = colorThief.getPalette(sourceImage, 2);
-      var hex = [rgbToHex(palette[0][0], palette[0][1], palette[0][2]), rgbToHex(palette[1][0], palette[1][1], palette[1][2])]
-
-      var luma1 = lumaRGB(palette[0][0], palette[0][1], palette[0][2])
-      var luma2 = lumaRGB(palette[1][0], palette[1][1], palette[1][2])
-
-      if (luma1 > luma2) {
-        if (luma1 > 0.8) {
-          setColors([`${shadeColor(hex[0], -10)}`, `${hex[1]}`])
-        } else {
-          setColors([`${hex[0]}`, `${hex[1]}`]);
-        }
-      } else if (luma2 > 0.8) {
-        setColors([`${shadeColor(hex[1], -10)}`, `${hex[0]}`])
-      } else { setColors([`${hex[1]}`, `${hex[0]}`]); }
+      setColors(getPrimaryColors(sourceImage));
     }
 
   }, [playlistId, colors]);
@@ -116,7 +66,7 @@ function Playlist() {
       onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
       className={
-        "h-[calc(100vh-5.5rem)] @container overflow-y-scroll bg-gradient-to-b  from-0% to-40%  rounded-md " +
+        "min-w-[25rem] overflow-y-scroll bg-gradient-to-b  from-0% to-50%  rounded-md h-[calc(100vh-5.5rem)]" +
         (isLoading ? " hidden" : "")
       }
       style={Object.assign(
@@ -138,7 +88,7 @@ function Playlist() {
 
       {/* header */}
       <section
-        className={`flex items-end space-x-0 space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
+        className={`@container flex items-end space-x-0 space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
       >
         <img
           className="h-56 w-56 hidden @2xl:flex shadow-2xl rounded-xl"
@@ -150,44 +100,39 @@ function Playlist() {
         <div>
           <p className="text-md font-semibold mb-2">Playlist</p>
 
-          <h1 className="xl:text-7xl md:text-6xl text-2xl font-extrabold">
+          <h1 className="2xl:text-7xl xl:text-6xl lg:text-3xl text-2xl font-extrabold">
             {playlist?.name}
           </h1>
           <div className="text-neutral-200 text-md mt-2">
             {ReactHtmlParser(playlist?.description)}
           </div>
-          <div className="flex mt-2">
-            {playlist?.tracks?.total > 200 ?
-              <>
-                <a className="text-md font-semibold me-2" href={playlist?.owner?.href}>
-                  {playlist?.owner?.display_name}&nbsp;&nbsp;•
-                </a>
-                <p className="text-md">
-                  {playlist?.tracks?.total}&nbsp;songs&nbsp;
-                </p>
-                <p className="text-md text-neutral-800 text-opacity-60">
+          <div className="flex @lg:flex-row flex-col">
+            <div className="flex-row flex">
+              <a className="text-md font-semibold me-2" href={playlist?.owner?.href}>
+                {playlist?.owner?.display_name}&nbsp;&nbsp;•
+              </a>
+              <p className="text-md">
+                {playlist?.tracks?.total}&nbsp;songs&nbsp;
+              </p>
+            </div>
+            <div className="flex">
+              {playlist?.tracks?.total > 200 ?
+                <p className="text-md text-neutral-400 text-opacity-60">
                   (200 shown),
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
-              </>
-              :
-              <>
-                <a className="text-md font-semibold me-2" href={playlist?.owner?.href}>
-                  {playlist?.owner?.display_name}&nbsp;&nbsp;•
-                </a>
-                <p className="text-md">
-                  {playlist?.tracks?.total}&nbsp;songs,&nbsp;
-                </p>
-                <p className="text-md text-neutral-800 text-opacity-60">
+                :
+                <p className="text-md text-neutral-400 text-opacity-60">
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
-              </>}
+              }
+            </div>
           </div>
         </div>
       </section>
 
       {/* songs */}
-      <section className="bg-neutral-900 bg-opacity-60">
+      <section className="bg-neutral-900 bg-opacity-60 pb-4 @container">
         {/* playlist functions */}
         <div className="flex items-center py-7">
           <div
@@ -214,25 +159,29 @@ function Playlist() {
         </div>
 
         {/* songs header */}
-        <div className="">
-          <div className="grid grid-cols-2 text-neutral-400  ps-2 pe-6 ">
-              <div className="px-5 flex items-center">
-                <p className="text-end w-[20px] ms-1 me-5">#</p>
-                <p>Title</p>
-                <div></div>
+        <div className="text-white sm:px-5 px-2 flex flex-col space-y-1">
+          <div className={`@container grid-container grid grid-cols-2 text-neutral-400 px-2 song rounded-[5px]`}>
+            <div className='flex items-center py-1'>
+              <p className="text-end w-[20px] flex-shrink-0 me-6">#</p>
+              <div className=''>
+                <p className={`w-[180px] xl:w-[300px]  truncate`}>Title</p>
               </div>
-            <div className='flex items-center justify-end  ml-auto md:ml-0'>
-              <p className='w-[90%] xl:w-[50%] hidden ps-2 lg:inline truncate'>Album</p>
-
-              <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
-              <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
             </div>
-          </div>
-          <div className=" text-neutral-400 mt-2 px-5">
-            <hr className="border-neutral-500 opacity-60 mb-2" />
-          </div>
+            <div className='flex items-center justify-end  ml-auto md:ml-0'>
+              <p className='w-[50%] @2xl:inline hidden truncate'>Album</p>
 
+              <p className='w-[40%] invisible @4xl:visible @xl:inline hidden truncate'>Date added</p>
+              <div className="w-[10%] flex justify-end items-end pe-4 flex-shrink-0">
+                <ClockIcon className=" h-5 w-5 flex-shrink-0 " />
+              </div>
+            </div>
+
+          </div>
+          <div className=" text-neutral-400 mt-2">
+            <hr className="border-neutral-500 opacity-60 mb-2 " />
+          </div>
         </div>
+
 
 
         <Songs />

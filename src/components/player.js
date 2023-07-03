@@ -124,14 +124,14 @@ function Player() {
         play={playing.isPlaying}
         inlineVolume={true}
         styles={{
-          activeColor: '#1cb954',
+          activeColor: '#1ed760',
           bgColor: 'var(--background-press)',
           color: '#9a9a9a',
           loaderColor: '#fff',
-          sliderColor: '#1cb954',
+          sliderColor: '#1ed760',
           trackArtistColor: 'var(--ui-text-subdued)',
           trackNameColor: 'var(--ui-text-light)',
-          sliderHandleColor: 'var(--ui-text-light)',
+          sliderHandleColor: 'var(--ui-text-subdued)',
         }}
         callback={(state) => {
           setPlaying({ ...playing, trackId: state.track.id, isPlaying: state.isPlaying })

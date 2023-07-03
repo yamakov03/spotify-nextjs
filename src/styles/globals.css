@@ -18,10 +18,9 @@
     --background-elevated-highlight: #2a2a2a;
     --background-elevated-press: #282828;
 
-    --background-tinted-base: hsla(0, 0%, 35%, 0.117);
-    --background-tinted-highlight: hsla(0, 0%, 53%, 0.216);;
-
-    --background-tinted-press: hsla(0, 0%, 61%, 0.227);
+    --background-tinted-base: hsla(0, 0%, 30%, 0.186);
+    --background-tinted-highlight: hsla(0, 0%, 53%, 0.157);
+    --background-tinted-press: hsla(0, 0%, 61%, 0.298);
 
     --background-tinted-constant: hsla(0, 0%, 62%, 0.207);
     --background-unsafe-for-small-text-base: #121212;
@@ -65,20 +64,6 @@
 
 }
 
-@layer components {
-  .button svg, .rswp__active svg,
-  .rswp__toggle._ControlsButtonRSWP:hover {
-    @apply cursor-pointer transition duration-200 ease-in-out !important;
-    color: #d9d9d9 !important;
-  }
-  .btn:hover{
-    @apply cursor-pointer hover:scale-[1.1] transition transform duration-200 ease-in-out;
-  }
-  /* a img {
-    @apply rounded-md
-  } */
-}
-
 /* -------------------------------------- animated bars -------------------------------------- */
 iframe
 {
@@ -95,8 +80,8 @@ iframe
 .bar {
   width: 4px;
   height: 100%;
-  color: #1dd05d;
-  background-color: #1dd05d;
+  color: #1ed760;
+  background-color: #1ed760;
   margin: 0 1px;
   animation: equalizer 3.9s steps(20, end) infinite;
 }
@@ -231,10 +216,103 @@ button[title="Previous"], button[title="Next"]  {
 ._ControlsButtonsRSWP > div {
   align-items: center;
   /* display: flex; */
-  min-width: 32px;
   text-align: center;
 }
+
+/* @media screen and (max-width: 767px) {
+  .rswp__active {
+    visibility: hidden !important;
+    display: none !important;   
+  }
+} */
+
+@layer components {
+  .button svg , .rswp__active svg ,
+  .rswp__toggle._ControlsButtonRSWP:hover {
+    @apply cursor-pointer ease-out !important;
+    color: #d9d9d9 !important;
+  }
+  .btn:hover{
+    @apply cursor-pointer hover:scale-[1.1] transition-all  duration-200 ease-out;
+
+  }
+}
 /* -------------------------------------- gradients -------------------------------------- */
+.g0p{
+  background: #012459;
+}
+.g1p{
+  background-color: #003972;
+}
+.g2p{
+  background-color: #003972;
+}
+.g3p{
+  background: #004372;
+}
+.g4p{
+  background: #004372;
+}
+.g5p{
+  background: #016792;
+}
+.g6p{
+  background: #07729f;
+}
+.g7p{
+  background: #12a1c0;
+}
+.g8p{
+  background: #74d4cc;
+}
+.g9p{
+  background: #efeebc;
+}
+.g10p{
+  background: #fee154;
+}
+.g11p{
+  background: #fdc352;
+}
+.g12p{
+  background: #ffac6f;
+}
+.g13p{
+  background: #fda65a;
+}
+.g14p{
+  background: #fd9e58;
+}
+.g15p{
+  background: #f18448;
+}
+.g16p{
+  background: #f06b7e;
+}
+.g17p{
+  background: #ca5a92;
+}
+.g18p{
+  background: #5b2c83;
+}
+.g19p{
+  background: #371a79;
+}
+.g20p{
+  background: #28166b;
+}
+.g21p{
+  background: #192861;
+}
+.g22p{
+  background: #040b3c;
+}
+.g23p{
+  background: #040b3c;
+}
+
+
+
 .g0{
   background: #012459;
 background: -moz-linear-gradient(top,  #012459 0%, #001322 100%);
@@ -499,14 +577,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#040b3c', end
 /* -------------------------------------- scroll -------------------------------------- */
 .scrollbar-container {
   position: relative !important;
+  z-index: 50 !important;
   /* height: 100%; */
 }
 .ps .ps__rail-x:hover, .ps .ps__rail-y:hover, .ps .ps__rail-x:focus, .ps .ps__rail-y:focus, .ps .ps__rail-x.ps--clicking, .ps .ps__rail-y.ps--clicking {
   background-color: #eeeeee00 !important;
   opacity: 0.8;
+  z-index: 50 !important;
 }
 .ps__thumb-y {
   margin: 0 3px 0 0;
+  z-index: 50 !important;
 }
 
 .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
@@ -531,15 +612,14 @@ img {
 
 /* -------------------------------------- divider -------------------------------------- */
 body {
-  --left-width: 280px;
+  --left-width: 300px;
   padding: 0;
   margin: 0;
+  @apply scrollbar-hide bg-[--background-press]
 }
-
 #player {
-  position: absolute;
-  display: flex;
-  bottom: 0;
+  position: relative;
+  top: calc(100vh - 5rem) ;
   left: 0;
   width: 100%;
 }
@@ -564,14 +644,13 @@ body {
 }
 
 #dragbar {
-  border-radius: 0 5px 5px 0;
   margin-top: 0.5rem;
   right: 0;
-  width: 5px;
+  width: 2px;
   opacity: 0;
   cursor: col-resize;
   background: var(--sidebar-text-subdued);
-  transition: 0s ease-in-out 0s, opacity 0.1s ease-in-out 0s;
+  /* transition: 0s ease-in-out 0s, opacity 0.1s ease-in-out 0s; */
 }
 
 #dragbar:hover,
@@ -580,12 +659,14 @@ body.resizing #dragbar {
   transition: 0s ease-in-out 0s, opacity 0.1s ease-in-out .1s;
 }
 
-@media screen and (max-width: 767px) {
-  .rswp__active._InfoRSWP.__8lj1y2 {
-    display: none;
-    
-  }
-  
+.horizontalScrollBox {
+  mask-image: linear-gradient(transparent,
+  black 5%,
+  black 95%,
+  transparent 100%) !important;
+-webkit-mask-image: linear-gradient( to right,transparent,
+  black 5%,
+  black 95%,
+  transparent 100%) !important;
 }
-
 

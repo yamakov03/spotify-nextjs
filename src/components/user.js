@@ -1,14 +1,15 @@
-import { CogIcon } from "@heroicons/react/solid";
 import { signOut, useSession } from "next-auth/react";
-import { use, useCallback, useEffect, useRef, useState } from "react";
-import { IoChevronDown, IoSettings } from "react-icons/io5";
+import {useEffect, useState } from "react";
+import { IoBrush, IoChevronDown, IoSettings } from "react-icons/io5";
 import { useRecoilState } from "recoil";
-import { CirclePicker, SliderPicker, TwitterPicker } from "react-color";
-import { lumaHex, lumaValue, shadeColor } from "../lib/colors";
+import { CirclePicker, SliderPicker} from "react-color";
+import { lumaHex} from "../lib/colors";
 import { useClickAway } from "@uidotdev/usehooks";
 import { preferencesState } from "../atoms/userAtom";
 import { useCookies } from 'react-cookie';
 import { getGradient, getHours } from "../lib/time";
+import { ScrollMenu } from 'react-horizontal-scrolling-menu';
+import {LeftArrowMenu, RightArrowMenu } from "./shared/horizontalScrollIcons";
 
 function User() {
     const { data: session } = useSession();
@@ -23,9 +24,6 @@ function User() {
     const [preferences, setPreferences] = useRecoilState(preferencesState);
     const [cookies, setCookie, removeCookie] = useCookies(['preferencesCookie']);
     const [color, setColor] = useState(cookies.preferencesCookie?.homeColor ? cookies.preferencesCookie.homeColor : '#282828');
-
-    const settingsButtonRef = useRef(null);
-
 
 
     useEffect(() => {
@@ -60,8 +58,8 @@ function User() {
                 document.documentElement.style.setProperty('--text-highlight', '#777777');
             }
             if (preferences.home === 'neutral') {
-                document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
-                document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
+                document.documentElement.style.setProperty('--home-text-subdued', '#606060');
+                document.documentElement.style.setProperty('--home-text-light', '#181818e6');
             }
 
         } else if (preferences.theme === "dark") {
@@ -89,20 +87,20 @@ function User() {
 
     useEffect(() => {
         if (preferences.home === 'flat') {
-                if (lumaHex(color) < 210) {
-                    document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
-                    document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
-                } else {
-                    document.documentElement.style.setProperty('--home-text-subdued', '#606060');
-                    document.documentElement.style.setProperty('--home-text-light', '#181818e6');
-                }
+            if (lumaHex(color) < 210) {
+                document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
+                document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
+            } else {
+                document.documentElement.style.setProperty('--home-text-subdued', '#606060');
+                document.documentElement.style.setProperty('--home-text-light', '#181818e6');
+            }
         }
         else if (preferences.home === 'accent') {
             if (lumaHex(color) < 210) {
                 document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
                 document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
             } else {
-                if(preferences.theme === 'light'){
+                if (preferences.theme === 'light') {
                     document.documentElement.style.setProperty('--home-text-subdued', '#606060');
                     document.documentElement.style.setProperty('--home-text-light', '#181818e6');
                 } else {
@@ -110,7 +108,7 @@ function User() {
                     document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
                 }
             }
-                document.documentElement.style.setProperty('--gradient-color', color);
+            document.documentElement.style.setProperty('--gradient-color', color);
 
         }
         else if (preferences.home === 'solarized') {
@@ -149,16 +147,16 @@ function User() {
                 document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
             }
         } else if (preferences.sidebar === 'flat') {
-                if (lumaHex(preferences.sidebarColor) < 130) {
-                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
-                    document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
-                    document.documentElement.style.setProperty('--text-highlight', '#fff');
-                } else {
+            if (lumaHex(preferences.sidebarColor) < 130) {
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
+                document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+                document.documentElement.style.setProperty('--text-highlight', '#fff');
+            } else {
 
-                    document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
-                    document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
-                    document.documentElement.style.setProperty('--text-highlight', '#aaa');
-                }
+                document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
+                document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+                document.documentElement.style.setProperty('--text-highlight', '#aaa');
+            }
         }
     }, [preferences.sidebar, preferences.sidebarColor])
 
@@ -187,7 +185,7 @@ function User() {
     };
 
     return (
-        <header className="fixed top-5 right-7 flex z-50" >
+        <header className="fixed top-7 right-8 flex z-50">
             <div onClick={handleOpenDropdown}
                 className="dropdown flex items-center bg-neutral-700 space-x-2 text-white opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2"
                 type="button"
@@ -201,14 +199,15 @@ function User() {
                 <p className="dropdown">{session?.user.name}</p>
                 <IoChevronDown className="dropdown h-5 w-5" />
             </div>
-            <div className="settings rounded-full bg-neutral-700 flex opacity-90 hover:opacity-80  items-center align-middle ms-3 cursor-pointer" onClick={handleOpenSettings} ref={settingsButtonRef}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="settings h-5 w-5 text-white mx-2" viewBox="0 0 20 20" fill="currentColor">
+            <div className="settings rounded-full bg-neutral-700 flex opacity-90 hover:opacity-80  items-center align-middle ms-3 cursor-pointer" onClick={handleOpenSettings}>
+                {/* <svg xmlns="http://www.w3.org/2000/svg" className="settings h-5 w-5 text-white mx-2" viewBox="0 0 20 20" fill="currentColor">
                     <path className="settings" fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                </svg>
+                </svg> */}
+                <IoBrush className="settings h-5 w-5 text-white mx-2" />
             </div>
 
             {showDropdown && (
-                <div ref={dropdownRef} className="absolute inline-block text-left right-0 mt-10 shadow-lg shadow-black/40">
+                <div ref={dropdownRef} className="absolute inline-block text-left right-0 mt-10 shadow-lg rounded-md shadow-black/200">
                     <div className="text-[--ui-text-light] bg-[--background-elevated-press] z-10 mt-2 w-48 rounded-[5px] focus:outline-none" >
                         <div className="py-1 px-1 " >
                             <div className="flex cursor-pointer items-center px-2 justify-between hover:bg-[--background-tinted-constant] rounded-sm">
@@ -232,8 +231,8 @@ function User() {
                 </div>
             )}
             {showSettings && (
-                <div ref={settingsRef} className="absolute text-left right-0 mt-10 shadow-lg shadow-black/40 rounded-md" >
-                    <div className="text-[--ui-text-light] bg-[--background-elevated-press] py-4 z-10 mt-2 w-[320px] rounded-[5px] shadow-xl focus:outline-none px-4 overflow-y-scroll max-h-[calc(100vh-4rem)] scrollbar-hide" >
+                <div ref={settingsRef} className="absolute text-left right-0 mt-10 shadow-lg shadow-black/200 rounded-md" >
+                    <div className="text-[--ui-text-light] bg-[--background-elevated-press] py-4 z-10 mt-2 w-[320px] rounded-[5px] shadow-xl focus:outline-none px-4 overflow-y-scroll max-h-[calc(100vh-5rem)] scrollbar-hide" >
                         <h1 className="font-bold text-lg mb-4">Appearance</h1>
 
                         <p className="block text-md justify-start font-semibold" role="menuitem">Theme</p>
@@ -255,7 +254,7 @@ function User() {
                         <p className="block text-md justify-start font-semibold" role="menuitem">Accent</p>
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Choose your accent color</p>
 
-                        <div className="rounded-md py-4 px-4 mb-5 bg-[--settings-highlight]" >
+                        <div className="rounded-md py-4 px-4 mb-2 bg-[--settings-highlight]" >
                             <SliderPicker
                                 color={color === "#121212" ? "#c2e5b3" : color}
 
@@ -269,7 +268,7 @@ function User() {
                         <hr className="border-neutral-500 opacity-20 pb-4" />
                         <p className="block text-md justify-start font-semibold" role="menuitem">Home</p>
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Set your home theme</p>
-                        <div className="flex flex-row space-x-1 overflow-x-scroll scrollbar-hide overflow-auto whitespace-nowrap mb-2">
+                        <ScrollMenu LeftArrow={LeftArrowMenu} RightArrow={RightArrowMenu} className="flex flex-row space-x-1 overflow-x-scroll scrollbar-hide overflow-auto whitespace-nowrap mb-2">
                             <div className={`cursor-pointer group rounded-md p-2 ${preferences.home === "flat" ? "bg-[--settings-highlight]" : null}`} onClick={() => setPreferences({ ...preferences, homeColor: color, home: "flat" })}>
                                 <div className={`bg-[--background-base] w-[110px] h-[80px] rounded-md group-hover:opacity-80 transition ease-in-out duration-200`}>
                                     <div className="w-full h-full rounded-md bg-black bg-opacity-10"></div>
@@ -295,8 +294,8 @@ function User() {
                                 </div>
                                 <p className="text-sm mt-1">Neutral</p>
                             </div>
-                        </div>
-                        <hr className="border-neutral-500 opacity-20 pb-4" />
+                        </ScrollMenu>
+                        <hr className="border-neutral-500 opacity-20 pb-4 mt-2" />
                         <p className="block text-md justify-start font-semibold" role="menuitem">Sidebar</p>
                         <p className="block text-sm justify-start mb-2 text-[#909090]" role="menuitem">Set your sidebar theme</p>
                         <div className="flex flex-row\ space-x-1 overflow-x-scroll scrollbar-hide overflow-auto whitespace-nowrap">

@@ -21,8 +21,8 @@ function AlbumCard({ title, artist, releaseDate, image, albumId }) {
       </div>
       
       <p className='pt-4 text-md text-md font-semibold text-left truncate '>{title}</p>
-      <p className='pt-2 text-md text-sm text-[--home-text-subdued] text-left truncate '>{artist}</p>
-      <p className='text-md text-sm text-[--home-text-subdued] text-left truncate '>{toDateString(releaseDate)}</p>
+      <p className='pt-2 text-md text-sm text-[--home-text-light] text-left truncate '>{artist}</p>
+      <p className='text-md text-sm text-[--home-text-light] text-left truncate '>{toDateString(releaseDate)}</p>
       <div
         className="text-[--text-bright-accent] px-8 flex flex-col space-y-1 relative"
         onClick={() => {
@@ -30,7 +30,7 @@ function AlbumCard({ title, artist, releaseDate, image, albumId }) {
         }
         }
       >
-        <button className="box-border rounded-full cursor-pointer text-center shadow-lg shadow-black/40 absolute bottom-[40px] right-2 btn transition-all ease-in-out duration-200 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-10px]">
+        <button className="box-border rounded-full cursor-pointer text-center shadow-lg shadow-black/40 absolute bottom-[70px] right-2 btn transition-all ease-in-out duration-200 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-10px]">
             <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
                 <span aria-hidden="true">
                     <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">

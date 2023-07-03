@@ -1,13 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import {
-  ClockIcon,
-  DotsHorizontalIcon,
-  LinkIcon,
-  ShareIcon,
-  UploadIcon,
+  ClockIcon
 } from "@heroicons/react/outline";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import useSpotify from "../../hooks/useSpotify";
@@ -18,21 +13,7 @@ import { playingState } from "../../atoms/playingAtom";
 import { HeartIcon } from "@heroicons/react/solid";
 import { likedSongsState } from "../../atoms/playlistAtom";
 import PerfectScrollbar from 'react-perfect-scrollbar'
-
-
-const appVariants = {
-  initial: {
-    opacity: 0,
-    x: "5px",
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.2,
-    },
-  },
-};
+import { currentViewState } from "../../atoms/viewAtom";
 
 function LikedSongs() {
   const { data: session } = useSession();
@@ -40,33 +21,27 @@ function LikedSongs() {
   const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
   const [playing, setPlaying] = useRecoilState(playingState);
   const [likedSongs, setLikedSongs] = useRecoilState(likedSongsState);
+  const [currentView, setCurrentView] = useRecoilState(currentViewState);
 
   useEffect(() => {
-    (async () => {
-      const pl = (await spotifyApi.getMySavedTracks({limit: 50})).body
-      // var lim = pl.tracks.total
-      var lim = 200;
-      // if there is more tracks than the limit (100 by default)
-      if (lim > pl.limit) {
-        // Divide the total number of track by the limit to get the number of API calls
-        for (let i = 1; i < Math.ceil(lim / pl.limit); i++) {
-          const trackToAdd = (
-            await spotifyApi.getMySavedTracks({limit:50,
-              offset: pl.limit * i, // Offset each call by the limit * the call's index
-            })
-          ).body;
-
-          // Push the retreived tracks into the array
-          pl.items = pl.items.concat(trackToAdd.items);
-        }
-      }
-
-      setLikedSongs(pl);
-      setIsLoading(false);
-    })();
-
-
-  }, [likedSongs]);
+      (async () => {
+          const returnedSongs = (await spotifyApi.getMySavedTracks({ limit: 50 })).body
+          // var lim = pl.tracks.total
+          var lim = 200;
+          if (lim > returnedSongs.limit) {
+            for (let i = 1; i < Math.ceil(lim / returnedSongs.limit); i++) {
+              const trackToAdd = (
+                await spotifyApi.getMySavedTracks({
+                  limit: 50,
+                  offset: returnedSongs.limit * i,
+                })
+              ).body;
+              returnedSongs.items = returnedSongs.items.concat(trackToAdd.items);
+            }
+          }
+          setLikedSongs(returnedSongs);
+      })();
+  }, []);
 
   const scrollTop = () => {
     var div = document.getElementById("mainContent");
@@ -75,10 +50,10 @@ function LikedSongs() {
 
   return (
     <PerfectScrollbar
-    onLoad={() => { scrollTop(), setIsLoading(false) }}
+      onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
       className={
-        "h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide from-[--background-base] bg-gradient-to-b to-[--background-press] transition duration-200" +
+        "min-w-[25rem] h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide from-[--background-base] bg-gradient-to-b to-[--background-press] transition duration-200" +
         (isLoading ? " hidden " : "")
       }
     >
@@ -88,7 +63,7 @@ function LikedSongs() {
         className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
       >
         <div className="items-center justify-center align-middle h-56 w-56 hidden xl:flex shadow-2xl rounded-xl bg-gradient-to-b from-amber-400 to-fuchsia-600">
-          <HeartIcon className="h-16 w-16 text-white"/>
+          <HeartIcon className="h-16 w-16 text-white" />
         </div>
         <div>
           <p className="text-md font-semibold mb-2">Playlist</p>
@@ -99,23 +74,23 @@ function LikedSongs() {
           <div className="text-neutral-200 text-md mt-2">
           </div>
           <div className="flex mt-2">
-              <>
-                <a className="text-md font-semibold me-2" href="">
-                  {session?.user.name}&nbsp;&nbsp;•
-                </a>
-                <p className="text-md">
-                  {likedSongs?.total}&nbsp;songs,&nbsp;
-                </p>
-                <p className="text-md text-neutral-800 text-opacity-60">
-                  about {(likedSongs?.total * 3) / 60} hr
-                </p>
-              </>
+            <>
+              <a className="text-md font-semibold me-2" href="">
+                {session?.user.name}&nbsp;&nbsp;•
+              </a>
+              <p className="text-md">
+                {likedSongs?.total}&nbsp;songs,&nbsp;
+              </p>
+              <p className="text-md text-neutral-800 text-opacity-60">
+                about {(likedSongs?.total * 3) / 60} hr
+              </p>
+            </>
           </div>
         </div>
       </section>
 
       {/* songs */}
-      <section className="bg-neutral-900 bg-opacity-70">
+      <section className="bg-neutral-900 bg-opacity-70 pb-4">
         {/* playlist functions */}
         <div className="flex items-center py-7">
           <div
@@ -144,24 +119,27 @@ function LikedSongs() {
         </div>
 
         {/* songs header */}
-        <div className="">
-          <div className="grid grid-cols-2 text-neutral-400  ps-2 pe-6 ">
-              <div className="px-5 flex items-center">
-                <p className="text-end w-[20px] ms-1 me-5">#</p>
-                <p>Title</p>
-                <div></div>
+        <div className="text-white sm:px-5 px-2 flex flex-col space-y-1">
+          <div className={`@container grid-container grid grid-cols-2 text-neutral-400 px-2 song rounded-[5px]`}>
+            <div className='flex items-center py-1'>
+              <p className="text-end w-[20px] flex-shrink-0 me-6">#</p>
+              <div className=''>
+                <p className={`w-[180px] xl:w-[300px]  truncate`}>Title</p>
               </div>
-            <div className='flex items-center justify-end  ml-auto md:ml-0'>
-              <p className='w-[90%] xl:w-[50%] hidden ps-2 lg:inline truncate'>Album</p>
-
-              <p className='w-[40%] ms-[10%] hidden xl:inline truncate'>Date Added</p>
-              <ClockIcon className="h-5 w-5 ms-[3.75rem] flex-shrink-0 justify-end items-end me-6" />
             </div>
-          </div>
-          <div className=" text-neutral-400 mt-2 px-5">
-            <hr className="border-neutral-500 opacity-60 mb-2" />
-          </div>
+            <div className='flex items-center justify-end  ml-auto md:ml-0'>
+              <p className='w-[50%] @2xl:inline hidden truncate'>Album</p>
 
+              <p className='w-[40%] invisible @4xl:visible @xl:inline hidden truncate'>Date added</p>
+              <div className="w-[10%] flex justify-end items-end pe-4 flex-shrink-0">
+                <ClockIcon className=" h-5 w-5 flex-shrink-0 " />
+              </div>
+            </div>
+
+          </div>
+          <div className=" text-neutral-400 mt-2">
+            <hr className="border-neutral-500 opacity-60 mb-2 " />
+          </div>
         </div>
 
 

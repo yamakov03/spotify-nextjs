@@ -18,9 +18,7 @@ function UserTopItems() {
     }, [session]);
 
   return (
-    <div className='text-[--home-text-light]'>
-                                    
-
+    <div className='text-[--home-text-light]'>                           
       <div className='grid lg:grid-cols-3 grid-cols-2'>
         <TopItemsCard image="/icons/likedSongImg.png" title='Liked Songs' playlistId="liked"/>
         {playlists?.map((playlist, i) => {

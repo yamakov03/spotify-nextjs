@@ -7,6 +7,7 @@ export const preferencesState = atom   ( {
         homeColor: '#406cbf',
         sidebarColor: '#406cbf',
         home: 'accent',
-        sidebar: 'neutral'
+        sidebar: 'neutral',
+        solarizedColor: '#002b36',
     }
 })

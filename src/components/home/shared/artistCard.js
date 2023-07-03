@@ -10,7 +10,7 @@ function ArtistCard({ title, image, artistId }) {
     <>
     {<div className='bg-[--background-tinted-base] cursor-pointer overflow-hidden rounded-[5px] p-4 group me-5 inline-block hover:bg-[--background-tinted-highlight] transition duration-200 ease-in-out w-[192px]'>
       <div className='w-[160px] h-[160px] relative rounded-[5px]'>
-        <img src={image} className='w-[160px] h-[160px] rounded-full shadow-lg absolute'></img>
+        <img src={image} className='w-[160px] h-[160px] rounded-full shadow-lg shadow-black/20 absolute'></img>
       </div>
       
       <p className='pt-2 text-md text-md font-semibold text-left truncate '>{title}</p>
@@ -22,7 +22,7 @@ function ArtistCard({ title, image, artistId }) {
         }
         }
       >
-        <button className="box-border rounded-full cursor-pointer text-center shadow-lg shadow-black/40 absolute bottom-[40px] right-2 btn transition-all ease-in-out duration-200 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-10px]">
+        <button className="box-border rounded-full cursor-pointer text-center shadow-lg shadow-black/200 absolute bottom-[30px] right-2 btn transition-all ease-in-out duration-200 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-10px]">
             <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
                 <span aria-hidden="true">
                     <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">
