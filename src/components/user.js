@@ -10,7 +10,7 @@ import { useCookies } from 'react-cookie';
 import { getGradient, getHours } from "../lib/time";
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import {LeftArrowMenu, RightArrowMenu } from "./shared/horizontalScrollIcons";
-
+import PerfectScrollbar from 'react-perfect-scrollbar';
 function User() {
     const { data: session } = useSession();
     const [showDropdown, setShowDropdown] = useState(false);
@@ -232,7 +232,7 @@ function User() {
             )}
             {showSettings && (
                 <div ref={settingsRef} className="absolute text-left right-0 mt-10 shadow-lg shadow-black/200 rounded-md" >
-                    <div className="text-[--ui-text-light] bg-[--background-elevated-press] py-4 z-10 mt-2 w-[320px] rounded-[5px] shadow-xl focus:outline-none px-4 overflow-y-scroll max-h-[calc(100vh-5rem)] scrollbar-hide" >
+                    <PerfectScrollbar className="text-[--ui-text-light] bg-[--background-elevated-press] py-4 z-10 mt-2 w-[320px] rounded-[5px] shadow-xl focus:outline-none px-4 overflow-y-scroll max-h-[calc(100vh-5rem)] scrollbar-hide" >
                         <h1 className="font-bold text-lg mb-4">Appearance</h1>
 
                         <p className="block text-md justify-start font-semibold" role="menuitem">Theme</p>
@@ -317,7 +317,7 @@ function User() {
 
                         </div>
 
-                    </div>
+                    </PerfectScrollbar>
                 </div>
             )}
         </header>

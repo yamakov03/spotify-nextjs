@@ -20,7 +20,7 @@
 
     --background-tinted-base: hsla(0, 0%, 34%, 0.185);
     --background-tinted-highlight: hsla(0, 0%, 67%, 0.157);
-    --background-tinted-press: hsla(0, 0%, 88%, 0.298);
+    --background-tinted-press: hsla(0, 0%, 76%, 0.298);
 
     --searchbar-tinted-base:hsla(0, 0%, 29%, 0.298);
     --searchbar-tinted-press:hsla(0, 0%, 29%, 0.247);
@@ -193,19 +193,6 @@ iframe {
   border-bottom: none !important;
 }
 
-.resizer {
-  flex-basis: 18px;
-  width: 9px;
-  position: relative;
-  z-index: 2;
-  cursor: col-resize;
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  border-right: 1px solid rgba(0, 0, 0, 0.4);
-  background: #333642;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 /* -------------------------------------- player -------------------------------------- */
 button[title="Previous"],
 button[title="Next"] {
@@ -231,6 +218,15 @@ button[title="Next"] {
 .PlayerRSWP button:hover {
   color: #d9d9d9 !important;
 }
+
+#player {
+  position: relative;
+  top: calc(100vh - 5rem);
+  left: 0;
+  width: 100%;
+  z-index: 50;
+}
+
 /* -------------------------------------- gradients -------------------------------------- */
 .g0p {
   background: #012459;
@@ -691,7 +687,7 @@ button[title="Next"] {
 /* -------------------------------------- scroll -------------------------------------- */
 .scrollbar-container {
   position: relative !important;
-  z-index: 50 !important;
+  z-index: 40 !important;
   /* height: 100%; */
 }
 .ps .ps__rail-x:hover,
@@ -702,11 +698,11 @@ button[title="Next"] {
 .ps .ps__rail-y.ps--clicking {
   background-color: #eeeeee00 !important;
   opacity: 0.8;
-  z-index: 50 !important;
+  z-index: 40 !important;
 }
 .ps__thumb-y {
   margin: 0 3px 0 0;
-  z-index: 50 !important;
+  z-index: 40 !important;
 }
 
 .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
@@ -735,14 +731,9 @@ body {
   padding: 0;
   margin: 0;
   @apply scrollbar-hide bg-[--background-press];
+  z-index: 50;
 }
-#player {
-  position: relative;
-  top: calc(100vh - 5rem);
-  left: 0;
-  width: 100%;
-  /* z-index: 50; */
-}
+
 
 #main,
 #sidebar,
@@ -750,6 +741,7 @@ body {
   top: 0;
   position: absolute;
   height: calc(100vh - 5.5rem);
+  z-index: 50;
 }
 
 #sidebar {
