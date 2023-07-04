@@ -100,7 +100,7 @@ function Playlist() {
         <div>
           <p className="text-md font-semibold mb-2">Playlist</p>
 
-          <h1 className="2xl:text-7xl xl:text-6xl lg:text-3xl text-2xl font-extrabold">
+          <h1 className="2xl:text-7xl xl:text-6xl lg:text-3xl text-4xl font-extrabold">
             {playlist?.name}
           </h1>
           <div className="text-neutral-200 text-md mt-2">

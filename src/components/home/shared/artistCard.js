@@ -3,14 +3,14 @@ import { playingState } from '../../../atoms/playingAtom'
 import { useRecoilState } from 'recoil';
 import PlayBtn from '../../playBtn';
 import Skeleton from 'react-loading-skeleton';
-
+import Image from 'next/image';
 function ArtistCard({ title, image, artistId }) {
   const [playing, setPlaying] = useRecoilState(playingState);
   return (
     <>
     {<div className='bg-[--background-tinted-base] cursor-pointer overflow-hidden rounded-[5px] p-4 group me-5 inline-block hover:bg-[--background-tinted-highlight] transition duration-200 ease-in-out w-[192px]'>
       <div className='w-[160px] h-[160px] relative rounded-[5px]'>
-        <img src={image} className='w-[160px] h-[160px] rounded-full shadow-lg shadow-black/20 absolute'></img>
+      <Image src={image} className='w-[160px] h-[160px] rounded-full shadow-lg shadow-black/20 absolute' width={160} height={160}/>
       </div>
       
       <p className='pt-2 text-md text-md font-semibold text-left truncate '>{title}</p>

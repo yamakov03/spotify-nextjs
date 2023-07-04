@@ -100,20 +100,18 @@ function LikedSongs() {
             }
             }
           >
-            <svg
-              className="btn cursor-pointer bg-black shadow-xl shadow-black/10 rounded-full "
-              height="3.5em"
-              preserveAspectRatio="xMidYMid"
-              viewBox="0 0 64 64"
-              width="3.5em"
-            >
-              <path
-                d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm-7.61 18.188c-.435.251-.702.715-.701 1.216v25.194a1.402 1.402 0 0 0 2.104 1.214L47.61 33.214a1.402 1.402 0 0 0 0-2.428L25.793 18.188c-.435-.25-.97-.25-1.404 0Z"
-                fill="currentColor"
-              ></path>
-            </svg>
+            <button className="box-border rounded-full cursor-pointer text-center shadow-xl shadow-black/10 btn transition-all ease-in-out duration-200">
+              <span className="bg-[--text-bright-accent] text-black flex rounded-full w-[56px] h-[56px] items-center justify-center">
+                <span aria-hidden="true">
+                  <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="text-black">
+                    <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+                    </path>
+                  </svg>
+                </span>
+              </span>
+            </button>
           </div>
-          <div className="btn text-[--text-subdued] flex flex-col space-y-1 cursor-pointer">
+          <div className="hover:text-white text-neutral-400 flex flex-col space-y-1 cursor-pointer">
             <svg role="img" height="32" width="32" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon" className="Svg-sc-ytk21e-0 haNxPq"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm15 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" fill="currentColor"></path></svg>
           </div>
         </div>

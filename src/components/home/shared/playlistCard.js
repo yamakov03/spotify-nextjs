@@ -3,14 +3,15 @@ import { playingState } from '../../../atoms/playingAtom'
 import { useRecoilState } from 'recoil';
 import PlayBtn from '../../playBtn';
 import Skeleton from 'react-loading-skeleton';
-
+import Image from 'next/image';
 function PlaylistCard({ title, image, playlistId, description, owner, ownerHref, tracks }) {
   const [playing, setPlaying] = useRecoilState(playingState);
   return (
     <>
       {<div className='bg-[--background-tinted-base] cursor-pointer overflow-hidden rounded-[5px] p-4 group me-5 inline-block hover:bg-[--background-tinted-highlight] transition duration-200 ease-in-out w-[192px]'>
         <div className='w-[160px] h-[160px] relative rounded-[5px]'>
-          <img src={image} className='w-[160px] h-[160px] rounded-[5px] shadow-lg absolute shadow-black/20'></img>
+          
+          <Image src={image} className='w-[160px] h-[160px] rounded-[5px] shadow-lg absolute shadow-black/20' width={160} height={160}/>
         </div>
         <p className='pt-4 text-md text-md font-semibold text-left truncate '>{title}</p>
         <div className='h-[3rem]'>

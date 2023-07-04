@@ -96,7 +96,7 @@ function User() {
             }
         }
         else if (preferences.home === 'accent') {
-            if (lumaHex(color) < 210) {
+            if (lumaHex(color) < 160) {
                 document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
                 document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
             } else {

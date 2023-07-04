@@ -3,7 +3,7 @@ import { playingState } from '../../../atoms/playingAtom'
 import { useRecoilState } from 'recoil';
 import PlayBtn from '../../playBtn';
 import Skeleton from 'react-loading-skeleton';
-
+import Image from 'next/image';
 function AlbumCard({ title, artist, releaseDate, image, albumId }) {
   const [playing, setPlaying] = useRecoilState(playingState);
 
@@ -17,7 +17,7 @@ function AlbumCard({ title, artist, releaseDate, image, albumId }) {
     <>
     {<div className='bg-[--background-tinted-base] cursor-pointer overflow-hidden rounded-[5px] p-4 group me-5 inline-block hover:bg-[--background-tinted-highlight] transition duration-200 ease-in-out w-[192px]'>
       <div className='w-[160px] h-[160px] relative rounded-[5px]'>
-        <img src={image} className='w-[160px] h-[160px] rounded-[5px] shadow-lg absolute'></img>
+        <Image src={image} className='w-[160px] h-[160px] rounded-[5px] shadow-lg absolute' width={160} height={160}/>
       </div>
       
       <p className='pt-4 text-md text-md font-semibold text-left truncate '>{title}</p>

@@ -26,6 +26,8 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { getGradient, getHours } from "../lib/time";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { LeftArrowMenu, RightArrowMenu } from "./shared/horizontalScrollIcons";
+import Image from 'next/image'
+
 
 function Sidebar() {
     const spotifyApi = useSpotify();
@@ -215,6 +217,7 @@ function Sidebar() {
                                         {/* <div className="items-center me-3 justify-center align-middle h-12 w-12 flex shadow-2xl rounded-[5px] bg-gradient-to-b from-amber-400 to-fuchsia-600">
                                         <HeartIcon className="h-7 w-7 text-white" />
                                     </div> */}
+                                    
                                         <img src="/icons/likedSongImg.png" alt="likedSongImg" className="h-12 w-12 rounded-[5px] cursor-pointer me-3" />
                                         <div className="flex-col truncate">
                                             <div className="flex">
@@ -231,8 +234,7 @@ function Sidebar() {
                                     <div id='playlists' key={playlist.id} className={`group hover:bg-[--background-tinted-highlight] cursor-pointer rounded-md px-2 py-2 mx-1 ${playlist.id === playlistId && view === "playlist" ? "bg-[--background-tinted-base]" : null}`}
                                         onClick={(e) => { { playlist.id !== playlistId ? (setIsLoading(true), setPlaylistId(playlist.id), setView("playlist")) : null }; }}>
                                         <div id='playlists' className="items-center flex">
-                                            <img src={playlist?.images[0]?.url} alt="" className="h-12 w-12 rounded-[5px] cursor-pointer me-3" />
-
+                                            <Image src={playlist?.images[0]?.url} alt="" className="h-12 w-12 rounded-[5px] cursor-pointer me-3" loading="lazy" width={48} height={48} />
                                             <div id='playlists' className="flex-col truncate">
                                                 <div id='playlists' className="flex">
                                                     <p className={`truncate text-md text-[--sidebar-text-light] ${playlist.id === playing.playlistId && playing.typePlaying === "track" ? 'text-[--text-bright-accent]' : null}`}>{playlist.name}</p>
@@ -251,7 +253,7 @@ function Sidebar() {
                                         <div id='' key={artist.id} className={`group hover:bg-[--background-tinted-highlight] cursor-pointer rounded-md px-2 py-2 mx-1 ${artist.id === artistsId && view === "artist" ? "bg-[--background-tinted-base]" : null}`}
                                             onClick={(e) => { { artist.id !== artistsId ? (setIsLoading(true), setArtistsId(artist.id), setView("artist")) : null }; }}>
                                             <div className="items-center flex">
-                                                <img src={artist?.images[0]?.url} alt="" className="h-12 w-12 rounded-full cursor-pointer me-3" />
+                                            <Image src={artist?.images[0]?.url} alt="" className="h-12 w-12 rounded-full cursor-pointer me-3" loading="lazy" width={48} height={48} />
                                                 <div className="flex-col truncate">
                                                     <div className="flex">
                                                         <p className={`truncate text-md text-[--sidebar-text-light] ${artist.id === playing.artistId && playing.typePlaying === "artist" ? 'text-[--text-bright-accent]' : null}`}>{artist.name}</p>
@@ -271,7 +273,7 @@ function Sidebar() {
                                             <div id='playlists' key={album.album.id} className={`group hover:bg-[--background-tinted-highlight] cursor-pointer rounded-md px-2 py-2 mx-1 ${album.album.id === albumsId && view === "album" ? "bg-[--background-tinted-base]" : null}`}
                                                 onClick={(e) => { { album.album.id !== albumsId ? (setIsLoading(true), setAlbumsId(album.album.id), setView("album")) : null }; }}>
                                                 <div id='playlists' className="items-center flex">
-                                                    <img src={album?.album.images[0]?.url} alt="" className="h-12 w-12 rounded-[5px] cursor-pointer me-3" />
+                                                    <Image src={album?.album.images[0]?.url} alt="" className="h-12 w-12 rounded-[5px] cursor-pointer me-3" loading="lazy" width={48} height={48} />
 
                                                     <div id='playlists' className="flex-col truncate">
                                                         <div id='playlists' className="flex">
