@@ -11,7 +11,7 @@ function Search() {
   const preferences = useRecoilValue(preferencesState);
 
   return (
-    <div className={`flex rounded-md min-w-[36rem] sm:pt-3 pt-14 text-[--home-text-subdued] h-[calc(100vh-5.5rem)]
+    <div className={`flex rounded-md min-w-[36rem] sm:pt-4 pt-14 text-[--home-text-subdued] h-[calc(100vh-5.5rem)]
     ${preferences.home === "solarized" ? getGradient() + " bg-opacity-0" :
         preferences.home === "accent" ? "bg-gradient-to-b from-[--gradient-color] to-[--background-elevated-base] to-50%" : null}`
     }

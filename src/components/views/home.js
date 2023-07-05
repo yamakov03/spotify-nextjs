@@ -19,13 +19,13 @@ function Home() {
 
   return (
     <div className={`flex rounded-md min-w-[25rem]
-    ${preferences.home === "solarized" ? getGradient() + " bg-opacity-0" :
+    ${preferences.home === "solarized" ? getGradient() :
         preferences.home === "accent" ? "bg-gradient-to-b from-[--gradient-color] to-[--background-elevated-base] to-50%" : null}`
     }
       style={{ backgroundColor: preferences.home === "flat" ? preferences.homeColor : "var(--background-elevated-base)" }}
     >
 
-      <PerfectScrollbar className={`${preferences.home === 'neutral' && preferences.theme === 'light' || preferences.home === 'accent' ? 'bg-opacity-20' : 'bg-opacity-0'} w-full rounded-md h-[calc(100vh-5.5rem)] overflow-y-scroll scrollbar-hide`}>
+      <PerfectScrollbar className={`relative  ${preferences.home === 'neutral' && preferences.theme === 'light' || preferences.home === 'accent' ? 'backdrop-brightness-90' : 'backdrop-brightness-100'} w-full rounded-md h-[calc(100vh-5.5rem)] overflow-y-scroll scrollbar-hide`}>
         <div className="text-[--home-text-light] ms-5 mt-14 space-y-6">
           <h1 className="text-3xl mb-6 font-bold">{greeting()}</h1>
           <UserTopItems />

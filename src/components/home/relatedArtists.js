@@ -26,7 +26,7 @@ function RelatedArtists() {
 
   return (
     <div className='text-[--home-text-light]'>
-      <TitleMd title={'Artists like' + {name}}/>
+      <TitleMd title={'Artists like ' + name}/>
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {artists?.map((artist, i) => {

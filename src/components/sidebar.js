@@ -27,14 +27,22 @@ import { getGradient, getHours } from "../lib/time";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { LeftArrowMenu, RightArrowMenu } from "./shared/horizontalScrollIcons";
 import Image from 'next/image'
+import { useClickAway } from "@uidotdev/usehooks";
 
 
 function Sidebar() {
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
+
     const [playlists, setPlaylists] = useState([]);
+    const [filteredPlaylists, setFilteredPlaylists] = useState([]);
+
     const [artists, setArtists] = useState([]);
+    const [filteredArtists, setFilteredArtists] = useState([]);
+
     const [albums, setAlbums] = useState([]);
+    const [filteredAlbums, setFilteredAlbums] = useState([]);
+
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
     const [artistsId, setArtistsId] = useState(null);
     const [albumsId, setAlbumsId] = useState(null);
@@ -42,8 +50,31 @@ function Sidebar() {
     const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
     const [playing, setPlaying] = useRecoilState(playingState);
     const [preferences, setPreferences] = useRecoilState(preferencesState);
+
     const [sidebarView, setSidebarView] = useState('playlists');
-    const [solarized, setSolarized] = useState(null);
+    const [searchVal, setSearchVal] = useState('');
+    const [inputFocused, setInputFocused] = useState(false);
+
+    const handleInput = (e) => {
+        setSearchVal(e.target.value);
+        if (sidebarView == 'playlists') {
+            setFilteredPlaylists(playlists.filter((playlist) => { return playlist.name.toLowerCase().includes(e.target.value.toLowerCase()) }));
+        } else if (sidebarView == 'artists') {
+            setFilteredArtists(artists.filter((artist) => { return artist.name.toLowerCase().includes(e.target.value.toLowerCase()) }));
+        } else if (sidebarView == 'albums') {
+            setFilteredAlbums(albums.filter((album) => { return album.album.name.toLowerCase().includes(e.target.value.toLowerCase()) }));
+        }
+    }
+
+    const handleClearBtn = () => {
+        setSearchVal('');
+        handleInput({ target: { value: '' } });
+    }
+
+    const inputRef = useClickAway(() => {
+        setInputFocused(false);
+    });
+
     useEffect(() => {
         if (sidebarView == 'playlists') {
             (async () => {
@@ -60,6 +91,7 @@ function Sidebar() {
                         }
                     }
                     setPlaylists(response.items);
+                    setFilteredPlaylists(response.items);
                 }
             })()
         } else if (sidebarView == 'artists') {
@@ -77,6 +109,7 @@ function Sidebar() {
                         }
                     }
                     setArtists(response.items);
+                    setFilteredArtists(response.items);
                 }
             })()
         } else if (sidebarView == 'albums') {
@@ -94,6 +127,7 @@ function Sidebar() {
                         }
                     }
                     setAlbums(response.items);
+                    setFilteredAlbums(response.items);
                 }
             })()
         }
@@ -140,14 +174,14 @@ function Sidebar() {
             }
         }, true);
     }, [])
- 
+
     return (
         <>
             <div id='sidebar' className="sidebar @container bg-[--background-press] text-[--sidebar-text-light] ps-2 pt-2 text-sm flex flex-col flex-shrink-0"
                 onLoad={function () {
 
                 }}>
-                <div className={`rounded-md mb-2 ${ preferences.sidebar === 'solarized' ? 'g' + getHours() + 'p ' : null} `}
+                <div className={`rounded-md mb-2 ${preferences.sidebar === 'solarized' ? 'g' + getHours() + 'p ' : null} `}
                     style={{
                         backgroundColor: preferences.sidebar === "flat" ? preferences.sidebarColor : preferences.sidebar === "neutral" ? "var(--background-elevated-base)" : null
                     }}>
@@ -167,8 +201,8 @@ function Sidebar() {
                 </div>
                 <div id='librarySidebar' className={`rounded-md ${preferences.sidebar === "solarized" ? getGradient() : preferences.sidebar === "accent" ? "bg-gradient-to-b from-[--background-base] to-[--background-press]" : null}`}
                     style={{ backgroundColor: preferences.sidebar === "flat" ? preferences.sidebarColor : preferences.sidebar === "neutral" ? "var(--background-elevated-base)" : null }}>
-                    <div className={`rounded-t-md z-40 pb-2  text-[--sidebar-text-subdued]`}>
-                        <div className={`px-2 flex justify-between items-center  pt-2 font-semibold text-md ${view === "library" ? "text-[--text-highlight]" : null}`}>
+                    <div className={`rounded-t-md z-40 text-[--sidebar-text-subdued]`}>
+                        <div className={`px-2 flex justify-between items-center  pt-2 font-semibold text-md @[80px]:mb-0 mb-2 ${view === "library" ? "text-[--text-highlight]" : null}`}>
                             <button className="flex flex-shrink-0 items-center px-2 space-x-3 ms-2 hover:text-[--text-highlight] transition duration-200 ease-out" onClick={() => { parseInt(document.body.style.getPropertyValue("--left-width").substring(0, 3)) > 250 ? document.body.style.setProperty("--left-width", 80 + 'px') : document.body.style.setProperty("--left-width", 300 + 'px') }}>
                                 <svg role="img" height="1.75rem" width="1.75rem" aria-hidden="true" viewBox="0 0 24 24" data-encore-id="icon"><path d="M3 22a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1zM15.5 2.134A1 1 0 0 0 14 3v18a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V6.464a1 1 0 0 0-.5-.866l-6-3.464zM9 2a1 1 0 0 0-1 1v18a1 1 0 1 0 2 0V3a1 1 0 0 0-1-1z" fill="currentColor"></path></svg>
                                 <p className="@[80px]:visible invisible">Your Library</p>
@@ -196,12 +230,33 @@ function Sidebar() {
 
                         </div>
                     </div>
-                    <PerfectScrollbar className={`flex-wrap flex-col rounded-b-md overflow-y-scroll h-[calc(100vh-260px)] @[80px]:h-[calc(100vh-300px)]`} options={{ suppressScrollX: true }}>
+                    <PerfectScrollbar className={`flex-wrap flex-col rounded-b-md overflow-y-scroll h-[calc(100vh-260px)] @[80px]:h-[calc(100vh-292px)]`} options={{ suppressScrollX: true }}>
                         <div className={`@[80px]:flex hidden px-2 justify-between items-center text-[--sidebar-text-subdued] text-md ${view === "library" ? "text-[--text-highlight]" : null}`}>
-                            <button className={`group flex items-center my-2 text-[--sidebar-text-subdued] hover:text-[--highlight] font-bold hover:bg-[--background-tinted-base] rounded-full `}>
-                                <SearchIcon className="h-5 w-5 m-2 cursor-pointer group-hover:text-[--text-highlight] transition duration-200" />
-                            </button>
-                            <div className="flex items-center hover:text-[--text-highlight] cursor-pointer me-4">
+                            <div ref={inputRef} className={`flex items-center ms-2 mb-3 mt-3 `}>
+                                <button className={`z-30 group p-2 flex items-center text-[--sidebar-text-subdued] hover:text-[--highlight] font-bold ${!inputFocused ? 'hover:bg-[--background-tinted-base]' : null} rounded-full `}
+                                    onClick={() => setInputFocused(!inputFocused)}>
+                                    <SearchIcon className="h-5 w-5 cursor-pointer group-hover:text-[--text-highlight] transition duration-200" />
+                                </button>
+
+                                    <div className="relative">
+                                        <input  
+                                            onClick={() => setInputFocused(true)}
+                                            onChange={handleInput}
+                                            value={searchVal}
+                                            type="text"
+                                            name="product-search"
+                                            id="product-search"
+                                            placeholder={"Search in " + sidebarView}
+                                            className={`${inputFocused ? 'visible bg-[--background-tinted-highlight] translate-x-5 opacity-100' : 'invisible bg-[--background-tinted-base] opacity-0'} transition-all duration-200 absolute left-[-55px] top-[-18px] rounded-[5px] py-2 ps-10  w-[227px] h-[36px] bg-transparent outline-none text-[--sidebar-text-light] placeholder-[--sidebar-text-subdued]`}
+                                        />
+                                        <svg className={`absolute left-[170px] top-[-8px] text-[--sidebar-text-subdued] ${searchVal ? 'visible' : 'invisible'}`}
+                                            onClick={handleClearBtn}
+                                            role="img" height="16" width="16" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon"><path d="M1.47 1.47a.75.75 0 0 1 1.06 0L8 6.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L9.06 8l5.47 5.47a.75.75 0 1 1-1.06 1.06L8 9.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L6.94 8 1.47 2.53a.75.75 0 0 1 0-1.06z" fill="currentColor"></path></svg>
+
+                                    </div>
+                            </div>
+
+                            <div className={`flex items-center hover:text-[--text-highlight] cursor-pointer me-4 ${inputFocused ? 'invisible' : 'visible'}`}>
                                 <p className="text-md me-2">Recents</p>
                                 <IoCaretDown className="h-4 w-4" />
                             </div>
@@ -217,7 +272,7 @@ function Sidebar() {
                                         {/* <div className="items-center me-3 justify-center align-middle h-12 w-12 flex shadow-2xl rounded-[5px] bg-gradient-to-b from-amber-400 to-fuchsia-600">
                                         <HeartIcon className="h-7 w-7 text-white" />
                                     </div> */}
-                                    
+
                                         <img src="/icons/likedSongImg.png" alt="likedSongImg" className="h-12 w-12 rounded-[5px] cursor-pointer me-3" />
                                         <div className="flex-col truncate">
                                             <div className="flex">
@@ -230,7 +285,7 @@ function Sidebar() {
                                     </div>
 
                                 </div>
-                                {playlists.map((playlist) => (
+                                {filteredPlaylists.map((playlist) => (
                                     <div id='playlists' key={playlist.id} className={`group hover:bg-[--background-tinted-highlight] cursor-pointer rounded-md px-2 py-2 mx-1 ${playlist.id === playlistId && view === "playlist" ? "bg-[--background-tinted-base]" : null}`}
                                         onClick={(e) => { { playlist.id !== playlistId ? (setIsLoading(true), setPlaylistId(playlist.id), setView("playlist")) : null }; }}>
                                         <div id='playlists' className="items-center flex">
@@ -249,11 +304,11 @@ function Sidebar() {
                             </div>
                             : sidebarView === "artists" ?
                                 <div className="rounded-md">
-                                    {artists.map((artist) => (
+                                    {filteredArtists.map((artist) => (
                                         <div id='' key={artist.id} className={`group hover:bg-[--background-tinted-highlight] cursor-pointer rounded-md px-2 py-2 mx-1 ${artist.id === artistsId && view === "artist" ? "bg-[--background-tinted-base]" : null}`}
                                             onClick={(e) => { { artist.id !== artistsId ? (setIsLoading(true), setArtistsId(artist.id), setView("artist")) : null }; }}>
                                             <div className="items-center flex">
-                                            <Image src={artist?.images[0]?.url} alt="" className="h-12 w-12 rounded-full cursor-pointer me-3" loading="lazy" width={48} height={48} />
+                                                <Image src={artist?.images[0]?.url} alt="" className="h-12 w-12 rounded-full cursor-pointer me-3" loading="lazy" width={48} height={48} />
                                                 <div className="flex-col truncate">
                                                     <div className="flex">
                                                         <p className={`truncate text-md text-[--sidebar-text-light] ${artist.id === playing.artistId && playing.typePlaying === "artist" ? 'text-[--text-bright-accent]' : null}`}>{artist.name}</p>
@@ -269,7 +324,7 @@ function Sidebar() {
 
                                 : sidebarView === "albums" ?
                                     <div id='playlists' className="rounded-md">
-                                        {albums.map((album) => (
+                                        {filteredAlbums.map((album) => (
                                             <div id='playlists' key={album.album.id} className={`group hover:bg-[--background-tinted-highlight] cursor-pointer rounded-md px-2 py-2 mx-1 ${album.album.id === albumsId && view === "album" ? "bg-[--background-tinted-base]" : null}`}
                                                 onClick={(e) => { { album.album.id !== albumsId ? (setIsLoading(true), setAlbumsId(album.album.id), setView("album")) : null }; }}>
                                                 <div id='playlists' className="items-center flex">

@@ -61,6 +61,17 @@ function User() {
                 document.documentElement.style.setProperty('--home-text-subdued', '#606060');
                 document.documentElement.style.setProperty('--home-text-light', '#181818e6');
             }
+            if (preferences.home === 'accent') {
+                if (lumaHex(color) < 160) {
+                    document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
+                    document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
+                } else {
+                        document.documentElement.style.setProperty('--home-text-subdued', '#606060');
+                        document.documentElement.style.setProperty('--home-text-light', '#181818e6');
+                }
+                document.documentElement.style.setProperty('--gradient-color', color);
+    
+            }
 
         } else if (preferences.theme === "dark") {
             document.documentElement.style.setProperty('--background-press', '#000');
@@ -77,6 +88,17 @@ function User() {
             if (preferences.home === 'neutral') {
                 document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
                 document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
+            }
+            if (preferences.home === 'accent') {
+                if (lumaHex(color) < 160) {
+                    document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
+                    document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
+                } else {
+                        document.documentElement.style.setProperty('--home-text-subdued', '#a7a7a7');
+                        document.documentElement.style.setProperty('--home-text-light', '#FFFFFFE6');
+                }
+                document.documentElement.style.setProperty('--gradient-color', color);
+    
             }
             document.documentElement.style.setProperty('--background-elevated-press', '#282828');
             document.documentElement.style.setProperty('--background-elevated-base', '#121212');
@@ -131,20 +153,17 @@ function User() {
                 document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
                 document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
             }
-            if (preferences.theme === 'light') {
-                document.documentElement.style.setProperty('--text-highlight', '#777777');
-            } else {
                 document.documentElement.style.setProperty('--text-highlight', '#fff');
-            }
-
         }
         if (preferences.sidebar === 'neutral') {
             if (preferences.theme === 'dark') {
                 document.documentElement.style.setProperty('--sidebar-text-subdued', '#a7a7a7');
                 document.documentElement.style.setProperty('--sidebar-text-light', '#FFFFFFE6');
+                document.documentElement.style.setProperty('--text-highlight', '#fff');
             } else {
                 document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
                 document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
+                document.documentElement.style.setProperty('--text-highlight', '#181818e6');
             }
         } else if (preferences.sidebar === 'flat') {
             if (lumaHex(preferences.sidebarColor) < 130) {
@@ -155,7 +174,7 @@ function User() {
 
                 document.documentElement.style.setProperty('--sidebar-text-subdued', '#606060');
                 document.documentElement.style.setProperty('--sidebar-text-light', '#181818e6');
-                document.documentElement.style.setProperty('--text-highlight', '#aaa');
+                document.documentElement.style.setProperty('--text-highlight', '#181818e6');
             }
         }
     }, [preferences.sidebar, preferences.sidebarColor])

@@ -19,7 +19,7 @@ function BrowseCards() {
   }, [spotifyApi]);
   return (
     <div className='@container text-[--home-text-light]'>
-      <h1 className="text-2xl font-semibold mb-4 mt-10">Browse all</h1>
+      <h1 className="text-2xl font-semibold mb-7 mt-10">Browse all</h1>
       <div className='grid @[1500px]:grid-cols-8 @[1300px]:grid-cols-4 @sm:grid-cols-3 grid-cols-2 gap-6 w-full'>
         {categories?.map((category, i) => {
           return (typeof category != 'undefined' && category) ? <BrowseCard key={i} title={category.name} image={category.icons[0].url} /> : null
