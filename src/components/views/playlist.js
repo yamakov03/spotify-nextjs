@@ -108,21 +108,21 @@ function Playlist() {
           </div>
           <div className="flex @lg:flex-row flex-col">
             <div className="flex-row flex">
-              <a className="text-md font-semibold me-2" href={playlist?.owner?.href}>
+              <p className="text-md font-semibold me-2" >
                 {playlist?.owner?.display_name}&nbsp;&nbsp;•
-              </a>
+              </p>
               <p className="text-md">
-                {playlist?.tracks?.total}&nbsp;songs&nbsp;
+                {playlist?.tracks?.total}&nbsp;songs,&nbsp;
               </p>
             </div>
             <div className="flex">
               {playlist?.tracks?.total > 200 ?
-                <p className="text-md text-neutral-400 text-opacity-60">
+                <p className="text-md text-neutral-300 text-opacity-80">
                   (200 shown),
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
                 :
-                <p className="text-md text-neutral-400 text-opacity-60">
+                <p className="text-md text-neutral-300 text-opacity-80">
                   about {(playlist?.tracks?.total * 3) / 60} hr
                 </p>
               }

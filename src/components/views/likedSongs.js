@@ -14,6 +14,8 @@ import { HeartIcon } from "@heroicons/react/solid";
 import { likedSongsState } from "../../atoms/playlistAtom";
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { currentViewState } from "../../atoms/viewAtom";
+import { preferencesState } from "../../atoms/userAtom";
+import { getGradient } from "../../lib/time";
 
 function LikedSongs() {
   const { data: session } = useSession();
@@ -22,6 +24,7 @@ function LikedSongs() {
   const [playing, setPlaying] = useRecoilState(playingState);
   const [likedSongs, setLikedSongs] = useRecoilState(likedSongsState);
   const [currentView, setCurrentView] = useRecoilState(currentViewState);
+  const preferences = useRecoilValue(preferencesState);
 
   useEffect(() => {
       (async () => {
@@ -49,18 +52,21 @@ function LikedSongs() {
   }
 
   return (
+
     <PerfectScrollbar
       onLoad={() => { scrollTop(), setIsLoading(false) }}
       id="mainContent"
-      className={
-        "min-w-[25rem] h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide from-[--background-base] bg-gradient-to-b to-[--background-press] transition duration-200" +
-        (isLoading ? " hidden " : "")
-      }
+      
+      className={`min-w-[25rem] h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide transition duration-200
+      ${preferences.home === "solarized" ? getGradient() :
+        preferences.home === "accent" ? "bg-gradient-to-b from-[--gradient-color] to-[--background-elevated-base] to-50%" : null} ${isLoading ? " hidden " : ""}`
+    }
+      style={{ backgroundColor: preferences.home === "flat" ? preferences.homeColor : "var(--background-elevated-base)" }}
     >
 
       {/* header */}
       <section
-        className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-white pl-8 pr-8 pb-8 pt-6 `}
+        className={`flex items-end space-x-0 lg:space-x-7  h-[350px] text-[--home-text-light] pl-8 pr-8 pb-8 pt-6 `}
       >
         <div className="items-center justify-center align-middle h-56 w-56 hidden xl:flex shadow-2xl rounded-xl bg-gradient-to-b from-amber-400 to-fuchsia-600">
           <HeartIcon className="h-16 w-16 text-white" />
@@ -75,13 +81,13 @@ function LikedSongs() {
           </div>
           <div className="flex mt-2">
             <>
-              <a className="text-md font-semibold me-2" href="">
+              <p className="text-md font-semibold me-2">
                 {session?.user.name}&nbsp;&nbsp;•
-              </a>
+              </p>
               <p className="text-md">
                 {likedSongs?.total}&nbsp;songs,&nbsp;
               </p>
-              <p className="text-md text-neutral-800 text-opacity-60">
+              <p className="text-md ">
                 about {(likedSongs?.total * 3) / 60} hr
               </p>
             </>

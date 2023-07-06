@@ -22,8 +22,8 @@
     --background-tinted-highlight: hsla(0, 0%, 67%, 0.157);
     --background-tinted-press: hsla(0, 0%, 76%, 0.298);
 
-    --searchbar-tinted-base:hsla(0, 0%, 29%, 0.298);
-    --searchbar-tinted-press:hsla(0, 0%, 29%, 0.247);
+    --searchbar-tinted-base:hsla(0, 0%, 29%, 0.363);
+    --searchbar-tinted-press:hsla(0, 0%, 29%, 0.313);
 
     --background-tinted-constant: hsla(0, 0%, 62%, 0.207);
     --background-unsafe-for-small-text-base: #121212;
@@ -224,7 +224,7 @@ button[title="Next"] {
   top: calc(100vh - 5rem);
   left: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 40;
 }
 
 /* -------------------------------------- gradients -------------------------------------- */

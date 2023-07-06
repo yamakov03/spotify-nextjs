@@ -247,7 +247,7 @@ function Sidebar() {
                                             name="product-search"
                                             id="product-search"
                                             placeholder={"Search in " + sidebarView}
-                                            className={`${inputFocused ? 'visible bg-[--background-tinted-highlight] translate-x-5 opacity-100' : 'invisible bg-[--background-tinted-base] opacity-0'} transition-all duration-200 absolute left-[-55px] top-[-18px] rounded-[5px] py-2 ps-10  w-[227px] h-[36px] bg-transparent outline-none text-[--sidebar-text-light] placeholder-[--sidebar-text-subdued]`}
+                                            className={`${inputFocused ? 'visible translate-x-5 opacity-100' : 'invisible bg-[--background-tinted-base] opacity-0'} bg-[--background-tinted-base] transition-all duration-200 absolute left-[-55px] top-[-18px] rounded-[5px] py-2 ps-10  w-[227px] h-[36px]  outline-none text-[--sidebar-text-light] placeholder-[--sidebar-text-subdued]`}
                                         />
                                         <svg className={`absolute left-[170px] top-[-8px] text-[--sidebar-text-subdued] ${searchVal ? 'visible' : 'invisible'}`}
                                             onClick={handleClearBtn}
