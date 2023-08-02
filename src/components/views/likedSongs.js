@@ -46,15 +46,10 @@ function LikedSongs() {
       })();
   }, []);
 
-  const scrollTop = () => {
-    var div = document.getElementById("mainContent");
-    div.scrollTop = 0
-  }
-
   return (
 
     <PerfectScrollbar
-      onLoad={() => { scrollTop(), setIsLoading(false) }}
+      onLoad={() => {setIsLoading(false) }}
       id="mainContent"
       
       className={`min-w-[25rem] h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide transition duration-200
