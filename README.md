@@ -1,4 +1,4 @@
-## Refeshed Spotify Web Client built with Next.js 13
+## Refeshed Spotify Web Clone built with Next.js 13
 
 ![](https://github.com/yamakov03/yamakov03.github.io/blob/master/public/assets/projects_gif/spotifynext.gif)
 
