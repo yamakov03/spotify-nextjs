@@ -17,7 +17,7 @@ function Search() {
     }
       style={{ backgroundColor: preferences.home === "flat" ? preferences.homeColor : "var(--background-elevated-base)" }}>
 
-    <PerfectScrollbar className={`px-5 pb-20 ${preferences.home === 'neutral' && preferences.theme === 'light' || preferences.home === 'accent' ? 'bg-opacity-20' : 'bg-opacity-0'} w-full rounded-md overflow-y-scroll scrollbar-hide`}>
+      <PerfectScrollbar className={`px-5 pb-20 ${preferences.home === 'neutral' && preferences.theme === 'light' || preferences.home === 'accent' ? 'bg-opacity-20' : 'bg-opacity-0'} w-full rounded-md overflow-y-scroll scrollbar-hide`}>
         <div className="w-full">
           <SearchBarLg />
           <BrowseCards />

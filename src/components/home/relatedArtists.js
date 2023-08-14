@@ -14,19 +14,19 @@ function RelatedArtists() {
 
   useEffect(() => {
     spotifyApi.getMyTopArtists({
-        limit: 1
-      }).then((response) => {
-        setName(response['body'].items[0].name)
-        fetch(`https://api.spotify.com/v1/artists/${response['body'].items[0].id}/related-artists`, {
+      limit: 1
+    }).then((response) => {
+      setName(response['body'].items[0].name)
+      fetch(`https://api.spotify.com/v1/artists/${response['body'].items[0].id}/related-artists`, {
         method: "GET",
-        headers: {"Authorization": `Bearer ${spotifyApi.getAccessToken()}`}
-        }).then(res => res.json()).then(json => setArtists(json['artists']));
-      })
-    }, []);
+        headers: { "Authorization": `Bearer ${spotifyApi.getAccessToken()}` }
+      }).then(res => res.json()).then(json => setArtists(json['artists']));
+    })
+  }, []);
 
   return (
     <div className='text-[--home-text-light]'>
-      <TitleMd title={'Artists like ' + name}/>
+      <TitleMd title={'Artists like ' + name} />
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {artists?.map((artist, i) => {

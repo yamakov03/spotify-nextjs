@@ -24,11 +24,11 @@ export default function Index() {
     <>
       <header />
       {view === "home" ? <Home /> : null}
-      {view === "playlist" ? <Playlist />: null}
-      {view === "search" ?  <Search/>: null}
-      {view === "library" ? <Library />: null}
-      {view === "likedsongs" ? <LikedSongs />: null}
-      {isLoading ? <Loading/> : null}
+      {view === "playlist" ? <Playlist /> : null}
+      {view === "search" ? <Search /> : null}
+      {view === "library" ? <Library /> : null}
+      {view === "likedsongs" ? <LikedSongs /> : null}
+      {isLoading ? <Loading /> : null}
     </>
   )
 }

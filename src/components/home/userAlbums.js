@@ -24,7 +24,7 @@ function UserAlbums() {
 
   return (
     <div className='text-[--home-text-light]'>
-      <TitleMd title={'Your albums'}/>
+      <TitleMd title={'Your albums'} />
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {albums?.items.map((album, i) => {

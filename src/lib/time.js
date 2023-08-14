@@ -42,5 +42,5 @@ export function getHours() {
 }
 
 export function getGradient() {
-    return "g" + new Date().getHours() 
+    return "g" + new Date().getHours()
 }

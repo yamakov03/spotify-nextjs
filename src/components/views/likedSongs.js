@@ -27,35 +27,35 @@ function LikedSongs() {
   const preferences = useRecoilValue(preferencesState);
 
   useEffect(() => {
-      (async () => {
-          const returnedSongs = (await spotifyApi.getMySavedTracks({ limit: 50 })).body
-          // var lim = pl.tracks.total
-          var lim = 200;
-          if (lim > returnedSongs.limit) {
-            for (let i = 1; i < Math.ceil(lim / returnedSongs.limit); i++) {
-              const trackToAdd = (
-                await spotifyApi.getMySavedTracks({
-                  limit: 50,
-                  offset: returnedSongs.limit * i,
-                })
-              ).body;
-              returnedSongs.items = returnedSongs.items.concat(trackToAdd.items);
-            }
-          }
-          setLikedSongs(returnedSongs);
-      })();
+    (async () => {
+      const returnedSongs = (await spotifyApi.getMySavedTracks({ limit: 50 })).body
+      // var lim = pl.tracks.total
+      var lim = 200;
+      if (lim > returnedSongs.limit) {
+        for (let i = 1; i < Math.ceil(lim / returnedSongs.limit); i++) {
+          const trackToAdd = (
+            await spotifyApi.getMySavedTracks({
+              limit: 50,
+              offset: returnedSongs.limit * i,
+            })
+          ).body;
+          returnedSongs.items = returnedSongs.items.concat(trackToAdd.items);
+        }
+      }
+      setLikedSongs(returnedSongs);
+    })();
   }, []);
 
   return (
 
     <PerfectScrollbar
-      onLoad={() => {setIsLoading(false) }}
+      onLoad={() => { setIsLoading(false) }}
       id="mainContent"
-      
+
       className={`min-w-[25rem] h-[calc(100vh-5.5rem)] overflow-y-scroll rounded-md scrollbar-hide transition duration-200
       ${preferences.home === "solarized" ? getGradient() :
-        preferences.home === "accent" ? "bg-gradient-to-b from-[--gradient-color] to-[--background-elevated-base] to-50%" : null} ${isLoading ? " hidden " : ""}`
-    }
+          preferences.home === "accent" ? "bg-gradient-to-b from-[--gradient-color] to-[--background-elevated-base] to-50%" : null} ${isLoading ? " hidden " : ""}`
+      }
       style={{ backgroundColor: preferences.home === "flat" ? preferences.homeColor : "var(--background-elevated-base)" }}
     >
 

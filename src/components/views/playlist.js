@@ -58,7 +58,7 @@ function Playlist() {
 
   return (
     <PerfectScrollbar
-      onLoad={() => {setIsLoading(false) }}
+      onLoad={() => { setIsLoading(false) }}
       id="mainContent"
       className={
         "min-w-[25rem] overflow-y-scroll bg-gradient-to-b  from-0% to-50%  rounded-md h-[calc(100vh-5.5rem)]" +

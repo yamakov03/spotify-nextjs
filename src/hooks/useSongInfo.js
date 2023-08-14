@@ -15,10 +15,10 @@ function useSongInfo() {
                     headers: {
                         Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
                     },
-            }
+                }
                 ).then((res) => res.json());
 
-        setSongInfo(songInfo);
+                setSongInfo(songInfo);
             }
         };
 

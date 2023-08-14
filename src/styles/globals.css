@@ -22,8 +22,8 @@
     --background-tinted-highlight: hsla(0, 0%, 67%, 0.157);
     --background-tinted-press: hsla(0, 0%, 76%, 0.298);
 
-    --searchbar-tinted-base:hsla(0, 0%, 29%, 0.363);
-    --searchbar-tinted-press:hsla(0, 0%, 29%, 0.313);
+    --searchbar-tinted-base: hsla(0, 0%, 29%, 0.363);
+    --searchbar-tinted-press: hsla(0, 0%, 29%, 0.313);
 
     --background-tinted-constant: hsla(0, 0%, 62%, 0.207);
     --background-unsafe-for-small-text-base: #121212;
@@ -200,16 +200,16 @@ button[title="Next"] {
   width: 0 !important;
 }
 
-.btn{
+.btn {
   @apply hover:scale-[1.1] transition-all  duration-200 ease-out;
 }
 
 ._ControlsButtonRSWP.rswp__toggle {
-  width: 60px !important
+  width: 60px !important;
 }
 
-._ControlsButtonRSWP.rswp__toggle{
-  @apply hover:scale-[1.1] transition-all  duration-200 ease-out
+._ControlsButtonRSWP.rswp__toggle {
+  @apply hover:scale-[1.1] transition-all  duration-200 ease-out;
 }
 
 .PlayerRSWP button {
@@ -733,7 +733,6 @@ body {
   @apply scrollbar-hide bg-[--background-press];
   z-index: 50;
 }
-
 
 #main,
 #sidebar,

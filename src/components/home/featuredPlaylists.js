@@ -19,12 +19,12 @@ function Featured() {
       const playlists = (await spotifyApi.getFeaturedPlaylists()).body;
       setFeaturedPlaylists(playlists);
     })();
-    
+
   }, []);
 
   return (
     <div className='text-[--home-text-light]'>
-      <TitleMd title={'Trending'}/>
+      <TitleMd title={'Trending'} />
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {featuredPlaylists?.playlists.items.map((playlist, i) => {

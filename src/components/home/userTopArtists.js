@@ -23,7 +23,7 @@ function UserTopArtists() {
 
   return (
     <div className='text-[--home-text-light] '>
-      <TitleMd title={'Your top artists'}/>
+      <TitleMd title={'Your top artists'} />
 
       <ScrollMenu id='scrollMenu' className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {artists?.items.map((artist, i) => {

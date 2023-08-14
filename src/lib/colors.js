@@ -73,11 +73,11 @@ export function getPrimaryColor(sourceImage) {
     return `${hex[1]}`
 }
 
-export function randomHSLA(){
+export function randomHSLA() {
     return `hsla(${~~(2000 * Math.random())}, 70%,  45%, 1)`
 }
 
-export function getPrimarySolarizedColor(){
+export function getPrimarySolarizedColor() {
     var elem = document.getElementById('solarizedGradient')
     var elemStyle = getComputedStyle(elem, "")['background-image']
 

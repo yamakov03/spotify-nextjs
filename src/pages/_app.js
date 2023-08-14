@@ -31,7 +31,7 @@ export default function App({
             :
             <main className={`${figtree.className}`}>
               <MainLayout>
-                  <Component {...pageProps} />
+                <Component {...pageProps} />
               </MainLayout>
             </main>
           }

@@ -11,12 +11,12 @@ const MainLayout = (props) => {
             <div className="bg-[--background-press] scrollbar-hide">
                 <User />
                 {/* Sidebar */}
-                    <Sidebar />
-                    {/* Center */}
-                    <div id="main" className='bg-[--background-press] p-2'>
-                        {props.children}
-                    </div>
-                {/* Player */} 
+                <Sidebar />
+                {/* Center */}
+                <div id="main" className='bg-[--background-press] p-2'>
+                    {props.children}
+                </div>
+                {/* Player */}
             </div>
             <Player />
 

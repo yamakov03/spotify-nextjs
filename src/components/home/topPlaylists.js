@@ -13,17 +13,17 @@ function TopPlaylists() {
   const spotifyApi = useSpotify();
   const [playlists, setPlaylists] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch('https://api.spotify.com/v1/browse/categories/country/playlists', {
       method: "GET",
-      headers: {"Authorization": `Bearer ${spotifyApi.getAccessToken()}`}
+      headers: { "Authorization": `Bearer ${spotifyApi.getAccessToken()}` }
     }).then(res => res.json()).then(json => setPlaylists(json['playlists']));
-  },[]);
+  }, []);
 
   return (
     <div className='text-[--home-text-light]'>
       {console.log(playlists)}
-      <TitleMd title={'Hot country'}/>
+      <TitleMd title={'Hot country'} />
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {playlists?.items.map((playlist, i) => {

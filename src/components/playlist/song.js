@@ -11,26 +11,26 @@ function Song({ order, track, playlistId }) {
     const [playing, setPlaying] = useRecoilState(playingState);
 
     const handlePlayPause = () => {
-        if(track.track.type === "episode"){
+        if (track.track.type === "episode") {
             if (playing.trackId !== track.track.id) {
-                setPlaying({ ...playing, typePlaying:"episode", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
+                setPlaying({ ...playing, typePlaying: "episode", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
             } else if (playing.isPlaying) {
-                setPlaying({ ...playing, typePlaying:"episode", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
+                setPlaying({ ...playing, typePlaying: "episode", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
             }
             else {
-                setPlaying({ ...playing, typePlaying:"episode", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
+                setPlaying({ ...playing, typePlaying: "episode", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
             }
         } else {
             if (playing.trackId !== track.track.id) {
-                setPlaying({ ...playing, typePlaying:"track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
+                setPlaying({ ...playing, typePlaying: "track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
             } else if (playing.isPlaying) {
-                setPlaying({ ...playing, typePlaying:"track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
+                setPlaying({ ...playing, typePlaying: "track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: false })
             }
             else {
-                setPlaying({ ...playing, typePlaying:"track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
+                setPlaying({ ...playing, typePlaying: "track", trackOrder: order, playlistId: playlistId, trackId: track.track.id, isPlaying: true })
             }
         }
-        
+
     }
 
     return (

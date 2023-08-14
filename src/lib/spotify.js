@@ -31,4 +31,4 @@ const spotifyApi = new SpotifyWebApi({
 
 export default spotifyApi;
 
-export {LOGIN_URL};
+export { LOGIN_URL };

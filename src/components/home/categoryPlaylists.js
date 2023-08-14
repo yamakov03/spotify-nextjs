@@ -9,21 +9,21 @@ import PlaylistCard from './shared/playlistCard';
 import { LeftArrowCard, RightArrowCard } from '../shared/horizontalScrollIcons';
 import TitleMd from '../shared/titleMedium';
 
-function CategoryPlaylists({ category, title}) {
+function CategoryPlaylists({ category, title }) {
   const spotifyApi = useSpotify();
   const { data: session } = useSession();
   const [playlists, setPlaylists] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch(`https://api.spotify.com/v1/browse/categories/${category}/playlists`, {
       method: "GET",
-      headers: {"Authorization": `Bearer ${spotifyApi.getAccessToken()}`}
+      headers: { "Authorization": `Bearer ${spotifyApi.getAccessToken()}` }
     }).then(res => res.json()).then(json => setPlaylists(json['playlists']));
-  },[]);
+  }, []);
 
   return (
     <div className='text-[--home-text-light]'>
-      <TitleMd title={title}/>
+      <TitleMd title={title} />
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {playlists?.items.map((playlist, i) => {
