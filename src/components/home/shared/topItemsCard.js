@@ -3,8 +3,6 @@ import { playingState } from '../../../atoms/playingAtom';
 import { useRecoilState } from 'recoil';
 import { likedSongsState } from "../../../atoms/playlistAtom";
 
-
-
 function TopItemsCard({ title, image, playlistId }) {
   const [playing, setPlaying] = useRecoilState(playingState);
   const [likedSongs, setLikedSongs] = useRecoilState(likedSongsState);

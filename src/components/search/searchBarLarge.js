@@ -1,4 +1,3 @@
-import { SearchIcon } from "@heroicons/react/solid"
 import { useState } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
 

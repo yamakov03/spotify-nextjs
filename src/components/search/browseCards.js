@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import TitleMd from '../shared/titleMedium'
 import useSpotify from '../../hooks/useSpotify';
 import BrowseCard from './browseCard';
 

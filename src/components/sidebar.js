@@ -1,16 +1,8 @@
 'use client';
 import {
-    HomeIcon,
-    SearchIcon,
-    PlusCircleIcon,
-    RssIcon,
-    LogoutIcon,
-    BookOpenIcon,
-    ArrowRightIcon,
-    ArrowSmRightIcon,
-    ChevronDownIcon,
+    SearchIcon
 } from "@heroicons/react/outline";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
 import { useRecoilState } from "recoil";
@@ -27,8 +19,6 @@ import { getGradient, getHours } from "../lib/time";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { LeftArrowMenu, RightArrowMenu } from "./shared/horizontalScrollIcons";
 import Image from 'next/image'
-import { useClickAway } from "@uidotdev/usehooks";
-
 
 function Sidebar() {
     const spotifyApi = useSpotify();
@@ -67,13 +57,11 @@ function Sidebar() {
     }
 
     const handleClearBtn = () => {
+        if(searchVal == '') setInputFocused(false);
         setSearchVal('');
         handleInput({ target: { value: '' } });
-    }
 
-    const inputRef = useClickAway(() => {
-        setInputFocused(false);
-    });
+    }
 
     useEffect(() => {
         if (sidebarView == 'playlists') {
@@ -232,7 +220,7 @@ function Sidebar() {
                     </div>
                     <PerfectScrollbar className={`flex-wrap flex-col rounded-b-md overflow-y-scroll h-[calc(100vh-260px)] @[80px]:h-[calc(100vh-300px)]`} options={{ suppressScrollX: true }}>
                         <div className={`@[80px]:flex hidden px-2 justify-between items-center text-[--sidebar-text-subdued] text-md ${view === "library" ? "text-[--text-highlight]" : null}`}>
-                            <div ref={inputRef} className={`flex items-center ms-2 mb-2`}>
+                            <div className={`flex items-center ms-2 mb-2`}>
                                 <button className={`z-30 group p-2 flex items-center text-[--sidebar-text-subdued] hover:text-[--highlight] font-bold ${!inputFocused ? 'hover:bg-[--background-tinted-base]' : null} rounded-full `}
                                     onClick={() => setInputFocused(!inputFocused)}>
                                     <SearchIcon className="h-5 w-5 cursor-pointer group-hover:text-[--text-highlight] transition duration-200" />
@@ -247,16 +235,16 @@ function Sidebar() {
                                         name="product-search"
                                         id="product-search"
                                         placeholder={"Search in " + sidebarView}
-                                        className={`${inputFocused ? 'visible translate-x-5 opacity-100' : 'invisible bg-[--background-tinted-base] opacity-0'} bg-[--background-tinted-base] transition-all duration-200 absolute left-[-56px] top-[-18px] rounded-[5px] py-2 ps-10  w-[227px] h-[36px]  outline-none text-[--sidebar-text-light] placeholder-[--sidebar-text-subdued]`}
+                                        className={`${inputFocused ? 'visible translate-x-5 opacity-100' : 'invisible bg-[--background-tinted-base] opacity-0'} bg-[--background-tinted-base] transition-all duration-200 absolute left-[-56px] top-[-18px] rounded-[5px] py-2 ps-10  w-[227px] h-[36px] pe-7  outline-none text-[--sidebar-text-light] placeholder-[--sidebar-text-subdued]`}
                                     />
-                                    <svg className={`absolute left-[170px] top-[-8px] text-[--sidebar-text-subdued] ${searchVal ? 'visible' : 'invisible'}`}
+                                    <svg className={`absolute left-[167px] top-[-8px] text-[--sidebar-text-subdued] ${inputFocused ? 'visible' : 'invisible'}`}
                                         onClick={handleClearBtn}
                                         role="img" height="16" width="16" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon"><path d="M1.47 1.47a.75.75 0 0 1 1.06 0L8 6.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L9.06 8l5.47 5.47a.75.75 0 1 1-1.06 1.06L8 9.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L6.94 8 1.47 2.53a.75.75 0 0 1 0-1.06z" fill="currentColor"></path></svg>
 
                                 </div>
                             </div>
 
-                            <div className={`flex items-center hover:text-[--text-highlight] cursor-pointer me-4 ${inputFocused ? 'invisible' : 'visible'}`}>
+                            <div className={`flex items-center hover:text-[--text-highlight] cursor-pointer me-4 mb-2 ${inputFocused ? 'invisible' : 'visible'}`}>
                                 <p className="text-md me-2">Recents</p>
                                 <IoCaretDown className="h-4 w-4" />
                             </div>

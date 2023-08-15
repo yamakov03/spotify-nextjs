@@ -1,5 +1,3 @@
-import { SearchIcon } from "@heroicons/react/solid"
-import { useState } from "react";
 import SearchBarLg from "../search/searchBarLarge";
 import BrowseCards from "../search/browseCards";
 import PerfectScrollbar from 'react-perfect-scrollbar'

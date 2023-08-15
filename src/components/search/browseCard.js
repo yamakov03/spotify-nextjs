@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPrimaryColor, randomHSLA } from '../../lib/colors'
+import { randomHSLA } from '../../lib/colors'
 import Image from 'next/image'
 
 function BrowseCard({ image, title }) {

@@ -36,11 +36,4 @@ export async function middleware(req: NextRequest) {
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
-
-  //just unauthorized
-  // if(!token) {
-  //   const url = req.nextUrl.clone();
-  //   url.pathname = "/login";
-  //   return NextResponse.redirect(url);
-  // }
 }

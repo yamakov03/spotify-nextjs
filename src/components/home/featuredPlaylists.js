@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import useSpotify from '../../hooks/useSpotify';
-import ArtistCard from './shared/artistCard';
-import ScrollContainer from 'react-indiana-drag-scroll'
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
-import { ArrowLeftIcon, ArrowNarrowRightIcon, ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import { useSession } from 'next-auth/react';
+import { ScrollMenu} from 'react-horizontal-scrolling-menu';
 import PlaylistCard from './shared/playlistCard';
 import { LeftArrowCard, RightArrowCard } from '../shared/horizontalScrollIcons';
 import TitleMd from '../shared/titleMedium';
 
 function Featured() {
   const spotifyApi = useSpotify();
-  const { data: session } = useSession();
   const [featuredPlaylists, setFeaturedPlaylists] = useState(null);
 
   useEffect(() => {

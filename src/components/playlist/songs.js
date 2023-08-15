@@ -1,8 +1,6 @@
 import { likedSongsState, playlistState } from '../../atoms/playlistAtom';
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import Song from './song';
-import { playingState } from '../../atoms/playingAtom';
-import { useEffect } from 'react';
 import { currentViewState } from '../../atoms/viewAtom';
 
 function Songs() {

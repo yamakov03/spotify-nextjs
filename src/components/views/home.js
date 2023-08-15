@@ -1,13 +1,9 @@
-import { useEffect } from "react"
 import { getGradient, greeting } from "../../lib/time"
-import { useSession } from "next-auth/react";
 import { preferencesState } from "../../atoms/userAtom";
 import { useRecoilState } from "recoil";
-
 import UserTopArtists from "../home/userTopArtists"
 import UserTopItems from "../home/userTopItems";
 import FeaturedPlaylists from "../home/featuredPlaylists";
-import TopPlaylists from "../home/topPlaylists";
 import UserAlbums from "../home/userAlbums";
 import RelatedArtists from "../home/relatedArtists";
 import CategoryPlaylists from "../home/categoryPlaylists";
@@ -15,7 +11,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 
 function Home() {
   const [preferences, setPreferences] = useRecoilState(preferencesState)
-  const { data: session } = useSession();
 
   return (
     <div className={`flex rounded-md min-w-[25rem]

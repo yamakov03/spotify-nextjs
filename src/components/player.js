@@ -1,12 +1,9 @@
 import useSpotify from "../hooks/useSpotify";
 import { useRecoilState } from "recoil";
-import { debounce, set } from "lodash";
 import SpotifyPlayer from "react-spotify-web-playback";
 import { playingState } from "../atoms/playingAtom";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { playlistState } from "../atoms/playlistAtom";
-import { spotifyApi } from "react-spotify-web-playback";
-import { currentViewState } from "../atoms/viewAtom";
 import { likedSongsState } from "../atoms/playlistAtom";
 
 function Player() {
@@ -14,11 +11,8 @@ function Player() {
   const [playing, setPlaying] = useRecoilState(playingState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
   const [player, setPlayer] = useState(null);
-  const [prevState, setPrevState] = useState(null);
   const ref = useRef(null);
   const [shuffle, setShuffle] = useState(false);
-  const [playingPlaylist, setPlayingPlaylist] = useState(null);
-  const [view, setView] = useRecoilState(currentViewState);
   const [likedSongs, setLikedSongs] = useRecoilState(likedSongsState);
 
 

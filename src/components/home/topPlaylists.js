@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useSpotify from '../../hooks/useSpotify';
-import ArtistCard from './shared/artistCard';
-import ScrollContainer from 'react-indiana-drag-scroll'
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
-import { ArrowLeftIcon, ArrowNarrowRightIcon, ArrowRightIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import AlbumCard from './shared/albumCard';
+import { ScrollMenu} from 'react-horizontal-scrolling-menu';
 import PlaylistCard from './shared/playlistCard';
 import { LeftArrowCard, RightArrowCard } from '../shared/horizontalScrollIcons';
 import TitleMd from '../shared/titleMedium';

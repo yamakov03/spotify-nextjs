@@ -1,7 +1,6 @@
 import React from 'react'
 import { playingState } from '../../../atoms/playingAtom'
 import { useRecoilState } from 'recoil';
-import PlayBtn from '../../playBtn';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 function PlaylistCard({ title, image, playlistId, description, owner, ownerHref, tracks }) {

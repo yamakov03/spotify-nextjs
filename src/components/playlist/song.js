@@ -1,9 +1,7 @@
-import useSpotify from '../../hooks/useSpotify';
 import { millisecondsToMinutesAndSeconds, toDateFormat } from '../../lib/time'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useRecoilState } from 'recoil'
 import AnimatedBars from './animatedBars';
-import { PlayIcon } from '@heroicons/react/solid';
 import { IoPauseSharp, IoPlaySharp } from 'react-icons/io5';
 import { playingState } from '../../atoms/playingAtom';
 

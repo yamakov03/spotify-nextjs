@@ -1,7 +1,6 @@
 import React from 'react'
 import { playingState } from '../../../atoms/playingAtom'
 import { useRecoilState } from 'recoil';
-import PlayBtn from '../../playBtn';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 function AlbumCard({ title, artist, releaseDate, image, albumId }) {

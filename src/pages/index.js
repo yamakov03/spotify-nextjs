@@ -1,7 +1,5 @@
 import Playlist from "../components/views/playlist"
 import { getSession } from "next-auth/react"
-import Player from "../components/player"
-import User from "../components/user"
 import { useRecoilState } from "recoil"
 import { currentViewState } from "../atoms/viewAtom"
 import { isLoadingState } from "../atoms/isLoadingAtom"

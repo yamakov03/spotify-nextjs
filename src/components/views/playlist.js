@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import ReactHtmlParser from "react-html-parser";
 import { isLoadingState } from "../../atoms/isLoadingAtom";
 import { playingState } from "../../atoms/playingAtom";
-import { getPrimaryColors, lumaRGB, rgbToHex, shadeColor } from "../../lib/colors";
+import { getPrimaryColors} from "../../lib/colors";
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 function Playlist() {

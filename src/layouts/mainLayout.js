@@ -1,6 +1,4 @@
-
-import dynamic from 'next/dynamic';
-import React, { FunctionComponent, ReactNode } from 'react'
+import React from 'react'
 import User from "../components/user"
 import Player from '../components/player';
 import Sidebar from '../components/sidebar';
