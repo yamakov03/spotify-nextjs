@@ -25,7 +25,7 @@ function UserAlbums() {
 
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {albums?.items.map((album, i) => {
-          return (typeof album != 'undefined' && album) ? <AlbumCard key={i} title={album.album.name} image={album?.album.images[0].url} albumId={album.album.id} releaseDate={album.album.release_date} /> : null
+          return (typeof album != 'undefined' && album) ? <AlbumCard key={i} title={album.album.name} image={album?.album.images[0]?.url} albumId={album.album.id} releaseDate={album.album.release_date} /> : null
         }
         )}
 

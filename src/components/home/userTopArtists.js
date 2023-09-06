@@ -25,7 +25,7 @@ function UserTopArtists() {
 
       <ScrollMenu id='scrollMenu' className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {artists?.items.map((artist, i) => {
-          return (typeof artist != 'undefined' && artist) ? <ArtistCard key={i} title={artist.name} image={artist?.images[0].url} artistId={artist.id} /> : null
+          return (typeof artist != 'undefined' && artist) ? <ArtistCard key={i} title={artist.name} image={artist?.images[0]?.url} artistId={artist.id} /> : null
         }
         )}
 

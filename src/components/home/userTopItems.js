@@ -22,7 +22,7 @@ function UserTopItems() {
       <div className='grid lg:grid-cols-3 grid-cols-2'>
         <TopItemsCard image="/icons/likedSongImg.png" title='Liked Songs' playlistId="liked" />
         {playlists?.map((playlist, i) => {
-          return (typeof playlist != 'undefined' && playlist) ? <TopItemsCard key={i} title={playlist.name} image={playlist.images[0].url} playlistId={playlist.id} /> : null
+          return (typeof playlist != 'undefined' && playlist) ? <TopItemsCard key={i} title={playlist.name} image={playlist.images[0]?.url} playlistId={playlist.id} /> : null
         }
         )}
 

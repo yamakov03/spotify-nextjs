@@ -75,7 +75,7 @@ function Sidebar() {
                                 offset: response.limit * i // Offset each call by the limit * the call's index
                             })).body;
                             // Push the retreived playlists into the array
-                            response.concat(trackToAdd.items);
+                            // response.concat(trackToAdd.items);
                         }
                     }
                     setPlaylists(response.items);
@@ -93,7 +93,7 @@ function Sidebar() {
                                 offset: response.limit * i // Offset each call by the limit * the call's index
                             })).body;
                             // Push the retreived playlists into the array
-                            response.concat(trackToAdd.items);
+                            // response.concat(trackToAdd.items);
                         }
                     }
                     setArtists(response.items);
@@ -111,7 +111,7 @@ function Sidebar() {
                                 offset: response.limit * i // Offset each call by the limit * the call's index
                             })).body;
                             // Push the retreived playlists into the array
-                            response.concat(trackToAdd.items);
+                            // response.concat(trackToAdd.items);
                         }
                     }
                     setAlbums(response.items);

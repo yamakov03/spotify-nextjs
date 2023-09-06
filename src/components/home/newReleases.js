@@ -25,7 +25,7 @@ function NewReleases() {
       <TitleMd title={'Latino releases'} />
       <ScrollMenu className='overflow-x-scroll overflow-auto whitespace-nowrap' LeftArrow={LeftArrowCard} RightArrow={RightArrowCard}>
         {newReleases?.albums.items.map((album, i) => {
-          return (typeof album != 'undefined' && album) ? <AlbumCard key={i} title={album.name} image={album?.images[0].url} albumId={album.id} releaseDate={album.release_date} /> : null
+          return (typeof album != 'undefined' && album) ? <AlbumCard key={i} title={album.name} image={album?.images[0]?.url} albumId={album.id} releaseDate={album.release_date} /> : null
         }
         )}
 
